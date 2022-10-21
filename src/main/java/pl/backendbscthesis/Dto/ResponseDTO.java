@@ -14,5 +14,9 @@ public class ResponseDTO {
 
     private String username;
 
+    private String email;
+
+    private Long individualId;
+
     private List<String> roles;
 }

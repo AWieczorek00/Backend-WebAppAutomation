@@ -15,7 +15,7 @@ import pl.backendbscthesis.security.User.CurrentUser;
 
 import java.util.List;
 
-@RequestMapping("/api")
+@RequestMapping("/authorization")
 @RestController
 @CrossOrigin(origins = "*")
 public class AuthenticationController {
@@ -49,6 +49,8 @@ public class AuthenticationController {
         return ResponseEntity.ok(new ResponseDTO(
                 sessionId,
                 currentUser.getUsername(),
+                currentUser.getEmail(),
+                currentUser.getIndividualId(),
                 roles
         ));
     }

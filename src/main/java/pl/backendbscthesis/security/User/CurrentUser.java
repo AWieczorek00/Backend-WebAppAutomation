@@ -7,6 +7,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import pl.backendbscthesis.Entity.User;
 
+import javax.persistence.Column;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,21 +20,26 @@ public class CurrentUser implements UserDetails {
 
     private String password;
 
-    private Collection<? extends GrantedAuthority> authorities;
+    private String email;
 
+    private Long individualId;
+
+    private Collection<? extends GrantedAuthority> authorities;
 
 
     public static CurrentUser build(User user) {
         List<GrantedAuthority> authorities = user.getRoles().stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName()))
                 .collect(Collectors.toList());
-
         return new CurrentUser(
                 user.getUsername(),
                 user.getPassword(),
-                authorities);
-    }
+                user.getEmail(),
+                user.getEmployee().getIndividualId(),
+                authorities
+        );
 
+    }
 
 
     @Override
@@ -49,6 +55,10 @@ public class CurrentUser implements UserDetails {
     @Override
     public String getUsername() {
         return username;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     @Override

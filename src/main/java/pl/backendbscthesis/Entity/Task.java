@@ -1,39 +1,33 @@
 package pl.backendbscthesis.Entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.time.LocalDate;
+import java.util.Optional;
 
 @Data
 @Entity
-@NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "users")
-public class User {
-
+@NoArgsConstructor
+public class Task {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Long id;
 
     @Column(nullable = false)
-    private String username;
+    private String name;
 
     @Column(nullable = false)
-    private String password;
-
-    @Column(nullable = false)
-    private String email;
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name="role_id")
-    private Set<Role> roles =  new HashSet<>();;
+    @JsonFormat(pattern="yyyy-MM-dd")
+    private LocalDate date;
 
     @OneToOne
     @JoinColumn(name = "employee_individual_id")
     private Employee employee;
+
 }

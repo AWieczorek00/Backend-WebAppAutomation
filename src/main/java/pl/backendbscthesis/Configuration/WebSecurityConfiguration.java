@@ -41,7 +41,7 @@ public class WebSecurityConfiguration  extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
-//dsa
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService).passwordEncoder(passwordEncoder);
@@ -59,7 +59,7 @@ public class WebSecurityConfiguration  extends WebSecurityConfigurerAdapter {
         ).and();
 
         http.authorizeRequests()
-                .antMatchers("/api/login").permitAll()
+                .antMatchers("/authorization/login").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
                 .antMatchers("/test/admin").hasAnyAuthority("ADMIN")
                 .antMatchers("/test/user").hasAnyAuthority("USER")
