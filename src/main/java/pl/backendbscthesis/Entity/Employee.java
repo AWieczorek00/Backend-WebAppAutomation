@@ -37,24 +37,24 @@ public class Employee {
     private Long phoneNumber;
 
     @Column(nullable = false)
-    @JsonFormat(pattern="yyyy-MM-dd")
+//    @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate dateOfCreation;
 
     @ManyToMany
     @JoinColumn(name = "task_id")
     private List<Task> task;
 
-    public Employee(Long individualId, String firstName, String secondName, String lastName, Long pesel, Long phoneNumber) {
+    public Employee(Long individualId, String firstName, String secondName, String lastName, Long pesel, Long phoneNumber, LocalDate dateOfCreation) {
         this.individualId = individualId;
         this.firstName = firstName;
         this.secondName = secondName;
         this.lastName = lastName;
         this.pesel = pesel;
         this.phoneNumber = phoneNumber;
+        this.dateOfCreation = dateOfCreation;
     }
 
-
-    //    @OneToOne
+//    @OneToOne
 //    @JoinColumn(name = "user_id")
 //    private User user;
 
