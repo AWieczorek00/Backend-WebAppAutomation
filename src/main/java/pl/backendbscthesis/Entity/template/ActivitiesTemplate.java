@@ -19,9 +19,7 @@ public class ActivitiesTemplate {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
-    @Value("false")
-    private boolean done;
+
 
     public ActivitiesTemplate(String name) {
         this.name = name;

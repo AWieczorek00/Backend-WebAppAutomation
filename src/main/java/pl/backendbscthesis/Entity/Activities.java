@@ -1,5 +1,6 @@
 package pl.backendbscthesis.Entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,6 +11,7 @@ import javax.persistence.*;
 @Data
 @Table(name = "activities")
 @NoArgsConstructor
+@AllArgsConstructor
 public class Activities {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,9 +27,9 @@ public class Activities {
     @Column(nullable = false)
     private boolean done;
 
-    @ManyToOne
-    @JoinColumn(name = "order_id")
-    private Order order;
+//    @ManyToOne
+//    @JoinColumn(name = "order_id")
+//    private Order order;
 
 }
 

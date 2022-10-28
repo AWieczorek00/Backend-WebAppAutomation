@@ -1,12 +1,20 @@
 package pl.backendbscthesis.Entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+
+
 @Entity
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "client")
 public class Client {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
@@ -15,7 +23,7 @@ public class Client {
     @Column(nullable = false)
     private String name;
 
-    @Column(length = 10)
+    @Column(length = 13)
     private String nip;
 
     @Column(nullable = false)
