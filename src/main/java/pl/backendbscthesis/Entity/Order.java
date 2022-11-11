@@ -17,15 +17,15 @@ import java.util.List;
 public class Order {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @OneToOne(cascade = {CascadeType.ALL})
+    @OneToOne()
     @JoinColumn(name = "client_id")
     private Client client;
 
-    @OneToMany
+    @ManyToMany
     @JoinColumn(name = "employee_individual_id")
     private List<Employee> employeeList;
 

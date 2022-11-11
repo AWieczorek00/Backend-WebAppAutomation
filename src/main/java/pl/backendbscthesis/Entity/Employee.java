@@ -20,7 +20,6 @@ public class Employee {
     @Column(name = "individual_id", nullable = false)
     private Long individualId;
 
-
     @Column(nullable = false)
     private String firstName;
 
@@ -37,7 +36,6 @@ public class Employee {
     private Long phoneNumber;
 
     @Column(nullable = false)
-//    @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate dateOfCreation;
 
     @ManyToMany
@@ -54,8 +52,5 @@ public class Employee {
         this.dateOfCreation = dateOfCreation;
     }
 
-//    @OneToOne
-//    @JoinColumn(name = "user_id")
-//    private User user;
 
 }

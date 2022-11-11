@@ -21,8 +21,8 @@ public class PreStart {
             ) {
 
 
-        Employee Adam = new Employee(1234L, "Adam", "Andrzej", "Wieczorek", 12340678901L, 123456789l, LocalDate.now());
-        Employee Paulina = new Employee(5678L, "Paulina", "", "Żelek", 12340678901L, 123456789l, LocalDate.now());
+        Employee Adam = new Employee(1234L, "Adam", "Andrzej", "Wieczorek", 12340678901L, 123456789L, LocalDate.now());
+        Employee Paulina = new Employee(5678L, "Paulina", "", "Żelek", 12340678901L, 123456789L, LocalDate.now());
         List<Employee> employeeList = Arrays.asList(Adam, Paulina);
         employeeRepository.save(Adam);
         employeeRepository.save(Paulina);
@@ -37,15 +37,15 @@ public class PreStart {
         activitiesTemplateRepository.save(new ActivitiesTemplate("Analiza spalin"));
         activitiesTemplateRepository.save(new ActivitiesTemplate("Analiza komina"));
 
-        Activities testSpalin = new Activities(0l,"Analiza spalin","",true);
-        Activities testKomina = new Activities(0l,"Analiza komina","",true);
-        activitiesRepository.save(testSpalin);
-        activitiesRepository.save(testKomina);
-        List<Activities> activities = Arrays.asList(testSpalin,testKomina);
+//        Activities testSpalin = new Activities("Analiza spalin","",true);
+//        Activities testKomina = new Activities("Analiza komina","",true);
+//        activitiesRepository.save(testSpalin);
+//        activitiesRepository.save(testKomina);
+//        List<Activities> activities = Arrays.asList(testSpalin,testKomina);
 
 
-        Client sklepUromka = new Client(0l,"Sklep u Romka","123-456-10-10","Jana Pawła","Tuliszków","123456789","uromka@wp.pl","firma");
-        Client promont = new Client(0l,"Promont","987-654-10-10","Focus","Bydgoszcz","987654321","poromont@onet.pl","firma");
+        Client sklepUromka = new Client(0l,"Sklep u Romka","123-456-10-10","Jana Pawła","Tuliszków","62-700","3","2A","123456789","uromka@wp.pl","firma");
+        Client promont = new Client(0l,"Promont","987-654-10-10","Focus","Bydgoszcz","62-800","41","","987654321","poromont@onet.pl","firma");
         clientRepository.save(sklepUromka);
         clientRepository.save(promont);
 
@@ -58,6 +58,6 @@ public class PreStart {
 
 
 
-        orderRepository.save(new Order(1l, sklepUromka, employeeList, null, LocalDate.now().minusDays(10), LocalDate.now(), "hight", "activ", "Monthly", "test"));
+//        orderRepository.save(new Order(1l, sklepUromka, employeeList, activities, LocalDate.now().minusDays(10), LocalDate.now(), "hight", "activ", "Monthly", "test"));
     }
 }

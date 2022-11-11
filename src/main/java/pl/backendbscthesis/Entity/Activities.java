@@ -13,8 +13,14 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Activities {
+    public Activities(String name, String attention, boolean done) {
+        this.name = name;
+        this.attention = attention;
+        this.done = done;
+    }
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -27,9 +33,7 @@ public class Activities {
     @Column(nullable = false)
     private boolean done;
 
-//    @ManyToOne
-//    @JoinColumn(name = "order_id")
-//    private Order order;
+
 
 }
 

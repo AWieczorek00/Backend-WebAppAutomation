@@ -16,7 +16,7 @@ import javax.persistence.*;
 public class Client {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -32,8 +32,17 @@ public class Client {
     @Column(nullable = false)
     private String city;
 
+    @Column(nullable = false)
+    private String zipcode;
+
+    @Column(nullable = false)
+    private String streetNumber;
+
+    @Column()
+    private String apartmentNumber;
+
     @Column(nullable = false,length = 9)
-    private String numberPhone;
+    private String phoneNumber;
 
     private String email;
 

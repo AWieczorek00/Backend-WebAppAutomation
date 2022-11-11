@@ -3,10 +3,8 @@ package pl.backendbscthesis.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.bind.annotation.*;
 import pl.backendbscthesis.Entity.Order;
 import pl.backendbscthesis.service.OrderService;
 
@@ -15,6 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/order")
 @CrossOrigin(origins = "*")
+@EnableTransactionManagement
 public class OrderController {
     private final OrderService orderService;
 
@@ -28,4 +27,11 @@ public class OrderController {
         List<Order> orderList = orderService.findAllOrders();
         return new ResponseEntity<>(orderList, HttpStatus.OK);
     }
+
+    @PostMapping("/add")
+    public ResponseEntity<Order> postOrder(@RequestBody Order orderBody){
+        Order order = orderService.add(orderBody);
+        return new ResponseEntity<>(order,HttpStatus.CREATED);
+    }
+
 }

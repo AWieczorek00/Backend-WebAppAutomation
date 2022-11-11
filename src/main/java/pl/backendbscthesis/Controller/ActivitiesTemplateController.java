@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/activitiesTemplate")
+@CrossOrigin(origins="*")
 public class ActivitiesTemplateController {
 
     private final ActivitiesTemplateService activitiesTemplateService;
