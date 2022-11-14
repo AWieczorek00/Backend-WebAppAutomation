@@ -20,7 +20,6 @@ public class ActivitiesService {
     }
 
     public List<Activities> createActivitiesList(List<Activities> activitiesList){
-        List<Activities> list = Arrays.asList(new Activities("test", "test", true));
         return activitiesRepository.saveAll(activitiesList);
 
     }
