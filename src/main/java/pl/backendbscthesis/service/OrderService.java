@@ -38,5 +38,9 @@ public class OrderService {
     }
 
 
+    @Transactional
+    public void delete(Long id) {
+        orderRepository.deleteById(id);
+    }
 }
 

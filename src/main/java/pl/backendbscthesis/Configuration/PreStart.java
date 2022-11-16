@@ -3,6 +3,7 @@ package pl.backendbscthesis.Configuration;
 import org.springframework.context.annotation.Configuration;
 import pl.backendbscthesis.Entity.*;
 import pl.backendbscthesis.Entity.template.ActivitiesTemplate;
+import pl.backendbscthesis.Entity.template.PartsTemplate;
 import pl.backendbscthesis.Repository.*;
 
 import java.time.LocalDate;
@@ -17,7 +18,8 @@ public class PreStart {
             ActivitiesTemplateRepository activitiesTemplateRepository,
             ActivitiesRepository activitiesRepository,
             OrderRepository orderRepository,
-            ClientRepository clientRepository
+            ClientRepository clientRepository,
+            PartsTemplateRepository partsTemplateRepository
             ) {
 
 
@@ -49,7 +51,11 @@ public class PreStart {
         clientRepository.save(sklepUromka);
         clientRepository.save(promont);
 
+        PartsTemplate oring = new PartsTemplate(0l,"oring",3.25f);
+        PartsTemplate wezyk = new PartsTemplate(0l,"Gumowy wężyk jeden metr",5);
 
+        partsTemplateRepository.save(oring);
+        partsTemplateRepository.save(wezyk);
 
 
 

@@ -37,6 +37,8 @@ public class AuthenticationController {
                 new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword())
         );
 
+
+
         final String sessionId = sessionRegistry.registerSession(user.getUsername());
 
         CurrentUser currentUser = (CurrentUser) authentication.getPrincipal();
