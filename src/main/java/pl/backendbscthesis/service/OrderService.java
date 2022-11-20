@@ -42,7 +42,6 @@ public class OrderService {
         orderRepository.deleteById(id);
     }
 
-<<<<<<< HEAD
     @Transactional
     public Order duplicate(Long id) {
         return orderRepository.findById(id)
