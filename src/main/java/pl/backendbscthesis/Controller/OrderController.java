@@ -30,8 +30,8 @@ public class OrderController {
 
     @PostMapping("/add")
     public ResponseEntity<Order> postOrder(@RequestBody Order orderBody){
-        Order order = orderService.add(orderBody);
-        return new ResponseEntity<>(order,HttpStatus.CREATED);
+        Order newOrder = orderService.add(orderBody);
+        return new ResponseEntity<>(newOrder,HttpStatus.CREATED);
     }
 
     @DeleteMapping("/delete/{id}")
@@ -39,6 +39,19 @@ public class OrderController {
         orderService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @PostMapping("/duplicate")
+    public ResponseEntity<Order> duplicateOrder(@RequestBody Long id){
+        Order duplicateOrder = orderService.duplicate(id);
+        return new ResponseEntity<>(duplicateOrder,HttpStatus.CREATED);
+    }
+
+    @GetMapping("/one/{id}")
+    public ResponseEntity<Order> getOneOrder(@PathVariable Long id){
+        Order order = orderService.findOneOrder(id);
+        return new ResponseEntity<>(order,HttpStatus.OK);
+    }
+
 
 
 }

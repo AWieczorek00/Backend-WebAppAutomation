@@ -1,9 +1,8 @@
 package pl.backendbscthesis.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pl.backendbscthesis.Entity.Order;
 import pl.backendbscthesis.Repository.ActivitiesRepository;
@@ -41,6 +40,22 @@ public class OrderService {
     @Transactional
     public void delete(Long id) {
         orderRepository.deleteById(id);
+    }
+
+    @Transactional
+    public Order duplicate(Long id) {
+        return orderRepository.findById(id)
+                .map(order -> {
+                    Order orderDuplicate = new Order(
+                            0l, order.getClient(), null, null, null, null, order.getPriority(), order.getStatus(), order.getPeriod(), null
+                    );
+                    return orderRepository.save(orderDuplicate);
+                }).orElseThrow(() -> new ResourceNotFoundException("Nie zaleziono takiego zelecenia do powielenia"));
+
+    }
+
+    public Order findOneOrder(Long id) {
+        return orderRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Nie zaleziono takiego zelecenia o id: "+id));
     }
 }
 
