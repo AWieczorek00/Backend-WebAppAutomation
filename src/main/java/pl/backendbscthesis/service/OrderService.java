@@ -42,6 +42,7 @@ public class OrderService {
         orderRepository.deleteById(id);
     }
 
+<<<<<<< HEAD
     @Transactional
     public Order duplicate(Long id) {
         return orderRepository.findById(id)
@@ -54,8 +55,11 @@ public class OrderService {
 
     }
 
-    public Order findOneOrder(Long id) {
-        return orderRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Nie zaleziono takiego zelecenia o id: "+id));
+
+    public Order findOrderById(Long id) {
+
+        return orderRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono zlecenia o takim id: " + id));
+
     }
 }
 

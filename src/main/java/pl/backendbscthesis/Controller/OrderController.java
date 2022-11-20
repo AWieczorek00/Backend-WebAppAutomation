@@ -40,18 +40,21 @@ public class OrderController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+
     @PostMapping("/duplicate")
     public ResponseEntity<Order> duplicateOrder(@RequestBody Long id){
         Order duplicateOrder = orderService.duplicate(id);
         return new ResponseEntity<>(duplicateOrder,HttpStatus.CREATED);
     }
 
+
     @GetMapping("/one/{id}")
     public ResponseEntity<Order> getOneOrder(@PathVariable Long id){
-        Order order = orderService.findOneOrder(id);
+        Order order = orderService.findOrderById(id);
         return new ResponseEntity<>(order,HttpStatus.OK);
     }
 
 
+2
 
 }
