@@ -3,7 +3,6 @@ package pl.backendbscthesis.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -32,6 +31,10 @@ public class Order {
     @OneToMany
     @JoinColumn(name = "activities_id")
     private List<Activities> activitiesList;
+
+    @OneToMany
+    @JoinColumn(name = "part_id")
+    private List<Part> partList;
 
     private LocalDate dateOfAdmission;
 
