@@ -60,5 +60,26 @@ public class OrderService {
         return orderRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono zlecenia o takim id: " + id));
 
     }
+
+    @Transactional
+    public Order updateOrder(Order orderBody) {
+        System.out.println(orderBody);
+
+
+        return orderRepository.findById(orderBody.getId()).map(orderUpdate->{
+            orderUpdate.setClient(orderBody.getClient());
+            orderUpdate.setActivitiesList(activitiesService.updateActivitiesList(orderBody.getActivitiesList(),orderUpdate.getActivitiesList()));
+            orderUpdate.setEmployeeList(orderBody.getEmployeeList());
+            orderUpdate.setPartList(partService.updatePartList(orderBody.getPartList(),orderUpdate.getPartList()));
+            orderUpdate.setPeriod(orderBody.getPeriod());
+            orderUpdate.setStatus(orderBody.getStatus());
+            orderUpdate.setPriority(orderBody.getPriority());
+            orderUpdate.setDateOfAdmission(orderBody.getDateOfAdmission());
+            orderUpdate.setDateOfExecution(orderBody.getDateOfExecution());
+            orderUpdate.setNote(orderBody.getNote());
+            return orderRepository.save(orderUpdate);
+        }).orElseThrow(()->new ResourceNotFoundException("nie znaleziono")) ;
+
+    }
 }
 

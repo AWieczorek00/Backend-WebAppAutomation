@@ -54,8 +54,11 @@ public class OrderController {
         return new ResponseEntity<>(order,HttpStatus.OK);
     }
 
-//    @PutMapping("/update")
-//    public ResponseEntity<Order> putOrder(@RequestBody Long id)
+    @PutMapping("/update")
+    public ResponseEntity<Order> putOrder(@RequestBody Order orderBody){
+        Order order = orderService.updateOrder(orderBody);
+        return new ResponseEntity<>(order,HttpStatus.OK);
+    }
 
 
 

@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import pl.backendbscthesis.Entity.Activities;
 import pl.backendbscthesis.Repository.ActivitiesRepository;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -22,5 +21,10 @@ public class ActivitiesService {
     public List<Activities> createActivitiesList(List<Activities> activitiesList){
         return activitiesRepository.saveAll(activitiesList);
 
+    }
+
+    public List<Activities> updateActivitiesList(List<Activities> newActivitiesList, List<Activities> oldActivitiesList) {
+        activitiesRepository.deleteAll(oldActivitiesList);
+        return activitiesRepository.saveAll(newActivitiesList);
     }
 }

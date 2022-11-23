@@ -35,29 +35,5 @@ public class TaskService {
         return taskRepository.save(task);
     }
 
-//    public List<Task> putEmployeeToTask(List<Task> taskList, Employee employee) {
-//
-//        System.out.println(employee);
-//
-//        List<Task> newTaskList = new ArrayList<>();
-//
-//
-//        for(Task task:taskList){
-//
-//             Task newTask =taskRepository.findById(task.getId()).map(
-//                     taskMap -> {
-//                         taskMap.setEmployee(employee);
-//                         return taskRepository.save(taskMap);
-//                     }
-//             ).orElseThrow();
-//
-//             newTaskList.add(newTask);
-//
-//
-//        }
-//
-//        return newTaskList;
-//
-//    }
 
 }
