@@ -35,5 +35,18 @@ public class TaskService {
         return taskRepository.save(task);
     }
 
+    public void delete(Long id){
+        taskRepository.deleteById(id);
+    }
+
+    public Task update(Task task){
+        return taskRepository.findById(task.getId()).map(taskUpdate -> {
+            taskUpdate.setName(task.getName());
+            taskUpdate.setExecutionTime(task.getExecutionTime());
+            taskUpdate.setEmployee(task.getEmployee());
+            return taskRepository.save(taskUpdate);
+        }).orElseThrow();
+    }
+
 
 }
