@@ -27,8 +27,8 @@ public class TaskService {
         return taskRepository.findAll();
     }
 
-    public List<Task> findAllTaskByEmployee(Employee employee) {
-        return taskRepository.findAllByEmployee(employee).orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono żadnego zadania dla takie pracownika"));
+    public List<Task> findAllTaskByEmployee(Long individualId) {
+        return taskRepository.findAllByEmployeeIndividualId(individualId).orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono żadnego zadania dla takie pracownika"));
     }
 
     public Task addTask(Task task) {
@@ -49,4 +49,10 @@ public class TaskService {
     }
 
 
+    public Task doneTaskUpdate(Task taskBody) {
+        return taskRepository.findById(taskBody.getId()).map(taskUpdate -> {
+            taskUpdate.setDone(taskBody.getDone());
+            return taskRepository.save(taskUpdate);
+        }).orElseThrow();
+    }
 }

@@ -40,6 +40,10 @@ public class Order {
 
     private LocalDate dateOfExecution;
 
+    private float manHour;
+
+    private float distance;
+
     private String priority;
 
     private String status;
@@ -47,6 +51,8 @@ public class Order {
     private String period;
 
     private String note;
+
+
 
 
 }

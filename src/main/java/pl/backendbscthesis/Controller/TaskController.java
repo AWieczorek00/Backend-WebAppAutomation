@@ -29,8 +29,8 @@ public class TaskController {
     }
 
     @GetMapping("/employee/all")
-    public ResponseEntity<List<Task>> getAllTaskByEmployee(@RequestBody Employee employeeBody){
-        List<Task> taskList = taskService.findAllTaskByEmployee(employeeBody);
+    public ResponseEntity<List<Task>> getAllTaskByEmployee(@RequestParam Long individualId){
+        List<Task> taskList = taskService.findAllTaskByEmployee(individualId);
         return new ResponseEntity<>(taskList , HttpStatus.OK);
     }
 
@@ -42,15 +42,21 @@ public class TaskController {
     }
 
     @PutMapping("/update")
-    ResponseEntity<Task> putTask(@RequestBody Task taskBody){
+    public ResponseEntity<Task> putTask(@RequestBody Task taskBody){
         Task task = taskService.update(taskBody);
         return new ResponseEntity<>(task,HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
-    ResponseEntity<?> deleteTask(@PathVariable Long id){
+    public ResponseEntity<?> deleteTask(@PathVariable Long id){
         taskService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/update/done")
+    public ResponseEntity<Task> doneTaskUpdate(@RequestBody Task taskBody){
+        Task task = taskService.doneTaskUpdate(taskBody);
+        return new ResponseEntity<>(task,HttpStatus.OK);
     }
 
 }

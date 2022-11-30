@@ -56,19 +56,19 @@ public class EmployeeService {
                 }).orElseThrow(() -> new ResourceNotFoundException("Nie zaleziono takiego pracownika"));
     }
 
-    public Employee putTaskToEmployee(Long individualId, List<Task> taskList) {
-
-
-//        List<Task> taskList1 = taskService.putEmployeeToTask(taskList,employeeRepository.findByIndividualId(individualId).orElseThrow(null));
-
-
-        return employeeRepository.findByIndividualId(individualId).map(
-                employee -> {
-                    employee.setTask(taskList);
-                    return employeeRepository.save(employee);
-                }
-        ).orElseThrow(() -> new ResourceNotFoundException("Nie zaleziono takiego pracownika"));
-    }
+//    public Employee putTaskToEmployee(Long individualId, List<Task> taskList) {
+//
+//
+////        List<Task> taskList1 = taskService.putEmployeeToTask(taskList,employeeRepository.findByIndividualId(individualId).orElseThrow(null));
+//
+//
+//        return employeeRepository.findByIndividualId(individualId).map(
+//                employee -> {
+//                    employee.setTask(taskList);
+//                    return employeeRepository.save(employee);
+//                }
+//        ).orElseThrow(() -> new ResourceNotFoundException("Nie zaleziono takiego pracownika"));
+//    }
 
     public void deleteEmployee(Employee employee){
         employeeRepository.delete(employee);

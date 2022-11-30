@@ -47,7 +47,7 @@ public class OrderService {
         return orderRepository.findById(id)
                 .map(order -> {
                     Order orderDuplicate = new Order(
-                            0l, order.getClient(), null, null, null, null, null, order.getPriority(), order.getStatus(), order.getPeriod(), null
+                            0l, order.getClient(), null, null, null, null, null,0,0, order.getPriority(), order.getStatus(), order.getPeriod(), null
                     );
                     return orderRepository.save(orderDuplicate);
                 }).orElseThrow(() -> new ResourceNotFoundException("Nie zaleziono takiego zelecenia do powielenia"));

@@ -47,11 +47,11 @@ public class EmployeeController {
         return  new ResponseEntity<>(employee,HttpStatus.OK);
     }
 
-    @PutMapping("/update/task/{individualId}")
-    public ResponseEntity<Employee> putTaskToEmployee(@RequestBody List<Task> taskList, @PathVariable Long individualId){
-        Employee employee = employeeService.putTaskToEmployee(individualId,taskList);
-        return new ResponseEntity<>(employee,HttpStatus.OK);
-    }
+//    @PutMapping("/update/task/{individualId}")
+//    public ResponseEntity<Employee> putTaskToEmployee(@RequestBody List<Task> taskList, @PathVariable Long individualId){
+//        Employee employee = employeeService.putTaskToEmployee(individualId,taskList);
+//        return new ResponseEntity<>(employee,HttpStatus.OK);
+//    }
 
     @DeleteMapping("/delete")
     public ResponseEntity<?> deleteEmployee(@RequestBody Employee employeeBody){

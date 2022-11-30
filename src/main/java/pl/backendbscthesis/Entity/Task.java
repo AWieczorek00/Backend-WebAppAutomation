@@ -22,9 +22,10 @@ public class Task {
     @Column(nullable = false)
     private String name;
 
-//    @Column(nullable = false)
-//    @JsonFormat(pattern="yyyy-MM-dd")
+
     private LocalDate executionTime;
+
+    private Boolean done;
 
     @OneToOne
     @JoinColumn(name = "employee_individual_id")
