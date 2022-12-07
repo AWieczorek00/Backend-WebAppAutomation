@@ -23,8 +23,8 @@ public class PreStart {
             ) {
 
 
-        Employee Adam = new Employee(1234L, "Adam", "Andrzej", "Wieczorek", 12340678901L, 123456789L, LocalDate.now());
-        Employee Paulina = new Employee(5678L, "Paulina", "", "Żelek", 12340678901L, 123456789L, LocalDate.now());
+        Employee Adam = new Employee(1234L, "Adam", "Andrzej", "Wieczorek", "adam98523@gmail.com", 123456789L, LocalDate.now());
+        Employee Paulina = new Employee(5678L, "Paulina", "", "Żelek", "awieczorek0000@gmail.com", 123456789L, LocalDate.now());
         List<Employee> employeeList = Arrays.asList(Adam, Paulina);
         employeeRepository.save(Adam);
         employeeRepository.save(Paulina);
@@ -39,20 +39,16 @@ public class PreStart {
         activitiesTemplateRepository.save(new ActivitiesTemplate("Analiza spalin"));
         activitiesTemplateRepository.save(new ActivitiesTemplate("Analiza komina"));
 
-//        Activities testSpalin = new Activities("Analiza spalin","",true);
-//        Activities testKomina = new Activities("Analiza komina","",true);
-//        activitiesRepository.save(testSpalin);
-//        activitiesRepository.save(testKomina);
-//        List<Activities> activities = Arrays.asList(testSpalin,testKomina);
 
 
-        Client sklepUromka = new Client(0l,"Sklep u Romka","123-456-10-10","Jana Pawła","Tuliszków","62-700","3","2A","123456789","uromka@wp.pl","firma");
-        Client promont = new Client(0l,"Promont","987-654-10-10","Focus","Bydgoszcz","62-800","41","","987654321","poromont@onet.pl","firma");
+
+        Client sklepUromka = new Client(0L,"Sklep u Romka","123-456-10-10","Jana Pawła","Tuliszków","62-700","3","2A","123456789","uromka@wp.pl","firma");
+        Client promont = new Client(0L,"Promont","987-654-10-10","Focus","Bydgoszcz","62-800","41","","987654321","poromont@onet.pl","firma");
         clientRepository.save(sklepUromka);
         clientRepository.save(promont);
 
-        PartsTemplate oring = new PartsTemplate(0l,"oring",3.25f);
-        PartsTemplate wezyk = new PartsTemplate(0l,"Gumowy wężyk jeden metr",5);
+        PartsTemplate oring = new PartsTemplate(0L,"Oring",3.25f,0.23f);
+        PartsTemplate wezyk = new PartsTemplate(0L,"Gumowy wąż",5,0.20f);
 
         partsTemplateRepository.save(oring);
         partsTemplateRepository.save(wezyk);
@@ -60,10 +56,9 @@ public class PreStart {
 
 
         userRepo.save(new User(0L, "user1", "$2a$10$4EvCE3wPMBPYEV/FA8B.3e1mrlCGaVuq.cO0x0fmrt198H61q/dFG", "test@wp.pl", rolesAdmin, Adam));
-//        userRepo.save(new User(0l,"user2","$2a$10$hvOa9FAisXftunkgb/QmkO5FLTQCI123rKTY.yuWAv9DjOW43/cSi",rolesUser));
+        userRepo.save(new User(0L,"user2","$2a$10$hvOa9FAisXftunkgb/QmkO5FLTQCI123rKTY.yuWAv9DjOW43/cSi","test@wp.pl",rolesUser,Paulina));
 
 
 
-//        orderRepository.save(new Order(1l, sklepUromka, employeeList, activities, LocalDate.now().minusDays(10), LocalDate.now(), "hight", "activ", "Monthly", "test"));
     }
 }

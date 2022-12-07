@@ -14,6 +14,7 @@ public class Part {
 
     private String name;
     private float price;
+    private float tax;
     private int amount;
 
 }

@@ -5,7 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.backendbscthesis.Entity.Employee;
-import pl.backendbscthesis.Entity.Task;
 import pl.backendbscthesis.service.EmployeeService;
 
 import java.util.List;
@@ -47,15 +46,10 @@ public class EmployeeController {
         return  new ResponseEntity<>(employee,HttpStatus.OK);
     }
 
-//    @PutMapping("/update/task/{individualId}")
-//    public ResponseEntity<Employee> putTaskToEmployee(@RequestBody List<Task> taskList, @PathVariable Long individualId){
-//        Employee employee = employeeService.putTaskToEmployee(individualId,taskList);
-//        return new ResponseEntity<>(employee,HttpStatus.OK);
-//    }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<?> deleteEmployee(@RequestBody Employee employeeBody){
-        employeeService.deleteEmployee(employeeBody);
+    @DeleteMapping("/delete/{individualId}")
+    public ResponseEntity<?> deleteEmployee(@PathVariable Long individualId){
+        employeeService.deleteEmployee(individualId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

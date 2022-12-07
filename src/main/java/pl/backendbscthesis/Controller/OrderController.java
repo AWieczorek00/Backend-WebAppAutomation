@@ -22,9 +22,9 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 @EnableTransactionManagement
 public class OrderController {
-    private OrderService orderService;
+    private final OrderService orderService;
 
-    private final PdfGeneration pdfGeneration = new PdfGeneration();
+
 
 
     @Autowired

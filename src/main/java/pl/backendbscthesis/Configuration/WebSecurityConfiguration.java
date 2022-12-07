@@ -62,6 +62,7 @@ public class WebSecurityConfiguration  extends WebSecurityConfigurerAdapter {
                 .antMatchers("/authorization/login").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
                 .antMatchers("/order/test").permitAll()
+                .antMatchers("/mail/sendMail").permitAll()
                 .antMatchers("/test/admin").hasAnyAuthority("ADMIN")
                 .antMatchers("/test/user").hasAnyAuthority("USER")
                 .anyRequest().authenticated();

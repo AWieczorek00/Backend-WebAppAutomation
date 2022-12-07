@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.backendbscthesis.Entity.Order;
 import pl.backendbscthesis.Repository.OrderRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -47,7 +48,7 @@ public class OrderService {
         return orderRepository.findById(id)
                 .map(order -> {
                     Order orderDuplicate = new Order(
-                            0l, order.getClient(), null, null, null, null, null,0,0, order.getPriority(), order.getStatus(), order.getPeriod(), null
+                            0l, order.getClient(), null, null, null, LocalDate.now(), null,0,0, order.getPriority(), order.getStatus(), order.getPeriod(), null
                     );
                     return orderRepository.save(orderDuplicate);
                 }).orElseThrow(() -> new ResourceNotFoundException("Nie zaleziono takiego zelecenia do powielenia"));
@@ -63,8 +64,6 @@ public class OrderService {
 
     @Transactional
     public Order updateOrder(Order orderBody) {
-        System.out.println(orderBody);
-
 
         return orderRepository.findById(orderBody.getId()).map(orderUpdate->{
             orderUpdate.setClient(orderBody.getClient());

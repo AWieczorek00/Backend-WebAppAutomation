@@ -29,4 +29,6 @@ public class PartsTemplate {
 
     @Column(nullable = false)
     private float price;
+
+    private float tax;
 }

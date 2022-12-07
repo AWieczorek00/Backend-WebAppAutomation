@@ -95,7 +95,6 @@ public class PdfGeneration {
             PdfPTable tableWithPartsAndMaterials = new PdfPTable(2);
             if (!order.getPartList().isEmpty()) {
                 for (Part parts : order.getPartList()) {
-//                    String allCellParts = parts.getName() + "×\t" + parts.getAmount() + "×\t" + parts.getPrice() + "zł";
                     tableWithPartsAndMaterials.addCell(new PdfPCell(new Paragraph(parts.getName(), elementsOfTableFont)));
                     tableWithPartsAndMaterials.addCell(new PdfPCell(new Paragraph(String.valueOf(parts.getAmount()), elementsOfTableFont)));
                 }
@@ -159,10 +158,6 @@ public class PdfGeneration {
         return "PROT/"+name+"/"+dateOfExecution.toString();
     }
 
-
-//    private String dateFormat(LocalDateTime date) {
-//        return date.format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"));
-//    }
 
 
     public static ByteArrayInputStream test() {

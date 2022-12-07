@@ -29,8 +29,7 @@ public class Employee {
     @Column(nullable = false)
     private String lastName;
 
-    @Column(nullable = false,length = 11)
-    private  Long pesel;
+    private String email;
 
     @Column(nullable = false,length = 9)
     private Long phoneNumber;

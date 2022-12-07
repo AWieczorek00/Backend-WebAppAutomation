@@ -18,12 +18,9 @@ public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
 
-    private final TaskService taskService;
-
     @Autowired
-    public EmployeeService(EmployeeRepository employeeRepository, TaskService taskService) {
+    public EmployeeService(EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
-        this.taskService = taskService;
     }
 
     public Employee findEmployeeByIndividualId(Long individualId) {
@@ -39,6 +36,7 @@ public class EmployeeService {
         Random random = new Random();
 
         employeeBody.setIndividualId(Long.valueOf(String.valueOf(LocalDate.now()).replace("-","")+random.nextLong(10,100)));
+        employeeBody.setDateOfCreation(LocalDate.now());
 
         return employeeRepository.save(employeeBody);
     }
@@ -50,28 +48,16 @@ public class EmployeeService {
                     employeeUpdate.setFirstName(employeeBody.getFirstName());
                     employeeUpdate.setSecondName(employeeBody.getSecondName());
                     employeeUpdate.setLastName(employeeBody.getLastName());
-                    employeeUpdate.setPesel(employeeBody.getPesel());
+                    employeeUpdate.setEmail(employeeBody.getEmail());
                     employeeUpdate.setPhoneNumber(employeeBody.getPhoneNumber());
                     return employeeRepository.save(employeeUpdate);
                 }).orElseThrow(() -> new ResourceNotFoundException("Nie zaleziono takiego pracownika"));
     }
 
-//    public Employee putTaskToEmployee(Long individualId, List<Task> taskList) {
-//
-//
-////        List<Task> taskList1 = taskService.putEmployeeToTask(taskList,employeeRepository.findByIndividualId(individualId).orElseThrow(null));
-//
-//
-//        return employeeRepository.findByIndividualId(individualId).map(
-//                employee -> {
-//                    employee.setTask(taskList);
-//                    return employeeRepository.save(employee);
-//                }
-//        ).orElseThrow(() -> new ResourceNotFoundException("Nie zaleziono takiego pracownika"));
-//    }
 
-    public void deleteEmployee(Employee employee){
-        employeeRepository.delete(employee);
+
+    public void deleteEmployee(Long individualId){
+        employeeRepository.deleteById(individualId);
     }
 
 }
