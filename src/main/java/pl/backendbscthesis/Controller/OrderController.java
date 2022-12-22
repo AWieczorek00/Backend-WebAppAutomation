@@ -73,7 +73,7 @@ public class OrderController {
     @PostMapping(value = "/protocol", produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<InputStreamResource> orderGeneration(@RequestBody Order orderBody) throws DocumentException, IOException {
         PdfGeneration pdfGeneration = new PdfGeneration();
-        ByteArrayInputStream orderPdf = pdfGeneration.createFacture(orderBody);
+        ByteArrayInputStream orderPdf = pdfGeneration.createProtocol(orderBody);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Disposition", "inline; filename=customers.pdf");
         headers.add("Access-Control-Expose-Headers", "Content-Disposition");
