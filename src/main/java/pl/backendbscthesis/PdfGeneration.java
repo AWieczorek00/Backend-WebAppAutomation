@@ -12,6 +12,7 @@ import pl.backendbscthesis.Entity.Part;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 
 import static com.itextpdf.text.Element.ALIGN_CENTER;
@@ -20,8 +21,10 @@ import static com.itextpdf.text.Rectangle.NO_BORDER;
 
 public class PdfGeneration {
 
+    private static final DecimalFormat df = new DecimalFormat("0.00");
+
+
     private final String fontUrl = "src/main/java/pl/backendbscthesis/Font/FreeSans-LrmZ.ttf";
-//    D:\Projekty\Engineering-Thesis\Backend-BSc-Thesis\src\main\resources\Font\FreeSans-1Zge.otf
 
     private final BaseFont polishCharacter = BaseFont.createFont(fontUrl, BaseFont.CP1250, BaseFont.EMBEDDED);
     private final Font titleOfTableFont = new Font(polishCharacter, 16, BOLD);
@@ -122,9 +125,9 @@ public class PdfGeneration {
 
             PdfPTable table = new PdfPTable(2);
             table.setWidths(new float[]{55f, 45f});
-            PdfPCell pdfPCell1 = new PdfPCell(new Paragraph("USŁUGĘ WYKONAŁ"));
+            PdfPCell pdfPCell1 = new PdfPCell(new Paragraph("USŁUGĘ WYKONAŁ",titleOfTableFont));
             pdfPCell1.setBorder(NO_BORDER);
-            PdfPCell pdfPCell2 = new PdfPCell(new Paragraph("POTWIERDZAM WYKONANIE"));
+            PdfPCell pdfPCell2 = new PdfPCell(new Paragraph("POTWIERDZAM WYKONANIE",titleOfTableFont));
             pdfPCell2.setVerticalAlignment(Element.ALIGN_RIGHT);
             pdfPCell2.setBorder(NO_BORDER);
             table.addCell(pdfPCell1);
@@ -155,6 +158,7 @@ public class PdfGeneration {
     }
 
     public ByteArrayInputStream createInvoice(Order order) {
+        float summaryParts = 0;
 
         Document document = new Document(PageSize.A4);
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -213,12 +217,15 @@ public class PdfGeneration {
             titleOfPartsAndMaterials.setSpacingBefore(10f);
             titleOfPartsAndMaterials.addCell(new PdfPCell(new Paragraph("ZAINSTALOWANE CZĘŚCI/MATERIAŁY", titleOfTableFont))).setHorizontalAlignment(ALIGN_CENTER);
             titleOfPartsAndMaterials.addCell(new PdfPCell(new Paragraph("Nazwa części,materiałów/Ilość/Kwota", elementsOfTableFont))).setHorizontalAlignment(ALIGN_CENTER);
-            PdfPTable tableWithPartsAndMaterials = new PdfPTable(2);
+            PdfPTable tableWithPartsAndMaterials = new PdfPTable(5);
             if (!order.getPartList().isEmpty()) {
                 for (Part parts : order.getPartList()) {
                     tableWithPartsAndMaterials.addCell(new PdfPCell(new Paragraph(parts.getName(), elementsOfTableFont)));
                     tableWithPartsAndMaterials.addCell(new PdfPCell(new Paragraph(String.valueOf(parts.getAmount()), elementsOfTableFont)));
-                    tableWithPartsAndMaterials.addCell(new PdfPCell(new Paragraph(parts.getPrice() + "*" + parts.getTax(), elementsOfTableFont)));
+                    tableWithPartsAndMaterials.addCell(new PdfPCell(new Paragraph(parts.getPrice()+" zł", elementsOfTableFont)));
+                    tableWithPartsAndMaterials.addCell(new PdfPCell(new Paragraph(parts.getTax() + "%", elementsOfTableFont)));
+                    tableWithPartsAndMaterials.addCell(new PdfPCell(new Paragraph(df.format(parts.getTax()*parts.getPrice()*10), elementsOfTableFont)));
+                    summaryParts += ((parts.getTax()*parts.getPrice())*parts.getAmount())*10;
                 }
             } else {
                 tableWithPartsAndMaterials.addCell(new PdfPCell(new Paragraph("Brak", elementsOfTableFont))).setHorizontalAlignment(ALIGN_CENTER);
@@ -235,18 +242,28 @@ public class PdfGeneration {
             PdfPTable titleSettlement = new PdfPTable(1);
             titleSettlement.setSpacingBefore(10f);
             titleSettlement.addCell(new PdfPCell(new Paragraph("ROZLICZENIE USŁUGI", titleOfTableFont))).setHorizontalAlignment(ALIGN_CENTER);
-            PdfPTable tableWithSettlement = new PdfPTable(2);
+            PdfPTable tableWithSettlement = new PdfPTable(4);
             tableWithSettlement.addCell(new PdfPCell(new Paragraph("Robocizna", elementsOfTableFont)));
             tableWithSettlement.addCell(new PdfPCell(new Paragraph(order.getManHour() + " godz", elementsOfTableFont)));
+            tableWithSettlement.addCell(new PdfPCell(new Paragraph(50 + " zł", elementsOfTableFont)));
+            tableWithSettlement.addCell(new PdfPCell(new Paragraph(order.getManHour()*50 + " zł", elementsOfTableFont)));
             tableWithSettlement.addCell(new PdfPCell(new Paragraph("Droga", elementsOfTableFont)));
             tableWithSettlement.addCell(new PdfPCell(new Paragraph(order.getDistance() + " km", elementsOfTableFont)));
+            tableWithSettlement.addCell(new PdfPCell(new Paragraph(2 + " zł", elementsOfTableFont)));
+            tableWithSettlement.addCell(new PdfPCell(new Paragraph(order.getDistance()*2 + " zł", elementsOfTableFont)));
             tableWithSettlement.setSpacingAfter(12.5f);
+
+            PdfPTable summary = new PdfPTable(1);
+            summary.setSpacingBefore(10f);
+            summary.addCell(new PdfPCell(new Paragraph("PODSUMOWANIE ROZLICZENIA", titleOfTableFont))).setHorizontalAlignment(ALIGN_CENTER);
+            String summaryValue = df.format((order.getManHour()*50)+(order.getDistance()*2) + summaryParts);
+            summary.addCell(new PdfPCell(new Paragraph( "Do zapłaty jest: "+ summaryValue + " zł",elementsOfTableFont)));
 
             PdfPTable table = new PdfPTable(2);
             table.setWidths(new float[]{55f, 45f});
-            PdfPCell pdfPCell1 = new PdfPCell(new Paragraph("USŁUGĘ WYKONAŁ"));
+            PdfPCell pdfPCell1 = new PdfPCell(new Paragraph("USŁUGĘ WYKONAŁ",titleOfTableFont));
             pdfPCell1.setBorder(NO_BORDER);
-            PdfPCell pdfPCell2 = new PdfPCell(new Paragraph("POTWIERDZAM WYKONANIE"));
+            PdfPCell pdfPCell2 = new PdfPCell(new Paragraph("POTWIERDZAM WYKONANIE",titleOfTableFont));
             pdfPCell2.setVerticalAlignment(Element.ALIGN_RIGHT);
             pdfPCell2.setBorder(NO_BORDER);
             table.addCell(pdfPCell1);
@@ -265,8 +282,8 @@ public class PdfGeneration {
             document.add(tableWithComments);
             document.add(titleSettlement);
             document.add(tableWithSettlement);
+            document.add(summary);
             document.add(table);
-
             document.close();
 
         } catch (DocumentException e) {
@@ -286,28 +303,7 @@ public class PdfGeneration {
 
 
 
-    public static ByteArrayInputStream test() {
-
-        Document document = new Document();
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
 
 
-        try {
-            PdfWriter.getInstance(document,out);
-            document.open();
-            PdfPTable titleTable = new PdfPTable(1);
-            titleTable.setHorizontalAlignment(ALIGN_CENTER);
-            titleTable.addCell(new PdfPCell(new Paragraph("PROTOKÓŁ Z WYKONANYCH CZYNOŚCI SERWISOWYCH NR "))).setHorizontalAlignment(ALIGN_CENTER);
-            titleTable.setSpacingBefore(10f);
-            titleTable.setSpacingAfter(12.5f);
-            document.add(titleTable);
-            document.close();
-        } catch (DocumentException e) {
-            throw new RuntimeException(e);
-        }
 
-
-        return new ByteArrayInputStream(out.toByteArray());
-
-    }
 }

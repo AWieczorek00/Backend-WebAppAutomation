@@ -18,12 +18,15 @@ public class OrderService {
 
     private final PartService partService;
 
+    private final ClientService clientService;
+
 
     @Autowired
-    public OrderService(OrderRepository orderRepository, ActivitiesService activitiesService, PartService partService) {
+    public OrderService(OrderRepository orderRepository, ActivitiesService activitiesService, PartService partService, ClientService clientService) {
         this.orderRepository = orderRepository;
         this.activitiesService = activitiesService;
         this.partService = partService;
+        this.clientService = clientService;
     }
 
     public List<Order> findAllOrders() {
@@ -34,6 +37,9 @@ public class OrderService {
     public Order add(Order orderBody) {
         activitiesService.createActivitiesList(orderBody.getActivitiesList());
         partService.createAllParts(orderBody.getPartList());
+        if(orderBody.getClient().getId()==null){
+            clientService.createClient(orderBody.getClient());
+        }
         return orderRepository.saveAndFlush(orderBody);
     }
 
@@ -48,7 +54,7 @@ public class OrderService {
         return orderRepository.findById(id)
                 .map(order -> {
                     Order orderDuplicate = new Order(
-                            0l, order.getClient(), null, null, null, LocalDate.now(), null,0,0, order.getPriority(), order.getStatus(), order.getPeriod(), null
+                            0l, order.getClient(), null, null, null, LocalDate.now(), null, 0, 0, order.getPriority(), order.getStatus(), order.getPeriod(), null
                     );
                     return orderRepository.save(orderDuplicate);
                 }).orElseThrow(() -> new ResourceNotFoundException("Nie zaleziono takiego zelecenia do powielenia"));
@@ -65,11 +71,11 @@ public class OrderService {
     @Transactional
     public Order updateOrder(Order orderBody) {
 
-        return orderRepository.findById(orderBody.getId()).map(orderUpdate->{
+        return orderRepository.findById(orderBody.getId()).map(orderUpdate -> {
             orderUpdate.setClient(orderBody.getClient());
-            orderUpdate.setActivitiesList(activitiesService.updateActivitiesList(orderBody.getActivitiesList(),orderUpdate.getActivitiesList()));
+            orderUpdate.setActivitiesList(activitiesService.updateActivitiesList(orderBody.getActivitiesList(), orderUpdate.getActivitiesList()));
             orderUpdate.setEmployeeList(orderBody.getEmployeeList());
-            orderUpdate.setPartList(partService.updatePartList(orderBody.getPartList(),orderUpdate.getPartList()));
+            orderUpdate.setPartList(partService.updatePartList(orderBody.getPartList(), orderUpdate.getPartList()));
             orderUpdate.setPeriod(orderBody.getPeriod());
             orderUpdate.setStatus(orderBody.getStatus());
             orderUpdate.setPriority(orderBody.getPriority());
@@ -77,7 +83,7 @@ public class OrderService {
             orderUpdate.setDateOfExecution(orderBody.getDateOfExecution());
             orderUpdate.setNote(orderBody.getNote());
             return orderRepository.save(orderUpdate);
-        }).orElseThrow(()->new ResourceNotFoundException("nie znaleziono")) ;
+        }).orElseThrow(() -> new ResourceNotFoundException("nie znaleziono"));
 
     }
 }

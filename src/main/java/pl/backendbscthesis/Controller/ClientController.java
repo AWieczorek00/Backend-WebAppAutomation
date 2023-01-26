@@ -28,11 +28,8 @@ public class ClientController {
         return new ResponseEntity<>(clientList, HttpStatus.OK);
     }
 
-//    @PostMapping("/add")
-//    public ResponseEntity<Client> postClient(@RequestBody Client clientBody){
-//        Client client = clientService.createClient(clientBody);
-//        return new ResponseEntity<>(client,HttpStatus.CREATED);
-//    }
+
+
 
 
 

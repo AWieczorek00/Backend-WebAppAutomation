@@ -18,13 +18,13 @@ public class ClientService {
     }
 
 
-    public List<Client> findAllClient(){
+    public List<Client> findAllClient() {
         return clientRepository.findAll();
-   }
+    }
 
-   public Client createClient(Client client){
+    public Client createClient(Client client) {
         return clientRepository.save(client);
-   }
+    }
 
 
 }

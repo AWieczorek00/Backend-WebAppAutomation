@@ -25,8 +25,6 @@ public class OrderController {
     private final OrderService orderService;
 
 
-
-
     @Autowired
     public OrderController(OrderService orderService) throws DocumentException, IOException {
         this.orderService = orderService;
@@ -71,7 +69,7 @@ public class OrderController {
     }
 
     @PostMapping(value = "/protocol", produces = MediaType.APPLICATION_PDF_VALUE)
-    public ResponseEntity<InputStreamResource> orderGeneration(@RequestBody Order orderBody) throws DocumentException, IOException {
+    public ResponseEntity<InputStreamResource> orderProtocolGeneration(@RequestBody Order orderBody) throws DocumentException, IOException {
         PdfGeneration pdfGeneration = new PdfGeneration();
         ByteArrayInputStream orderPdf = pdfGeneration.createProtocol(orderBody);
         HttpHeaders headers = new HttpHeaders();
@@ -84,21 +82,21 @@ public class OrderController {
                 .body(new InputStreamResource(orderPdf));
     }
 
-    @GetMapping(value = "/test", produces = MediaType.APPLICATION_PDF_VALUE)
-    public ResponseEntity<InputStreamResource> test() {
-
-        ByteArrayInputStream bis = PdfGeneration.test();
-
+    @PostMapping(value = "/invoice", produces = MediaType.APPLICATION_PDF_VALUE)
+    public ResponseEntity<InputStreamResource> orderInvoiceGeneration(@RequestBody Order orderBody) throws DocumentException, IOException {
+        PdfGeneration pdfGeneration = new PdfGeneration();
+        ByteArrayInputStream orderPdf = pdfGeneration.createInvoice(orderBody);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Disposition", "inline; filename=customers.pdf");
         headers.add("Access-Control-Expose-Headers", "Content-Disposition");
-
         return ResponseEntity
                 .ok()
                 .headers(headers)
                 .contentType(MediaType.APPLICATION_PDF)
-                .body(new InputStreamResource(bis));
+                .body(new InputStreamResource(orderPdf));
     }
+
+
 
 
 }

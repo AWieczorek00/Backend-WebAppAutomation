@@ -60,11 +60,12 @@ public class WebSecurityConfiguration  extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers("/authorization/login").permitAll()
-                .antMatchers("/h2-console/**").permitAll()
                 .antMatchers("/order/test").permitAll()
                 .antMatchers("/mail/sendMail").permitAll()
-                .antMatchers("/test/admin").hasAnyAuthority("ADMIN")
-                .antMatchers("/test/user").hasAnyAuthority("USER")
+                .antMatchers("/employee").hasAnyAuthority("ADMIN")
+                .antMatchers("/order/delete/{id}").hasAnyAuthority("ADMIN")
+                .antMatchers("/task").hasAnyAuthority("ADMIN")
+
                 .anyRequest().authenticated();
 
         http.addFilterBefore(
