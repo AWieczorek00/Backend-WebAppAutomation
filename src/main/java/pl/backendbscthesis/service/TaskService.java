@@ -32,6 +32,7 @@ public class TaskService {
     }
 
     public Task addTask(Task task) {
+        task.setExecutionTime(task.getExecutionTime().plusDays(1));
         return taskRepository.save(task);
     }
 

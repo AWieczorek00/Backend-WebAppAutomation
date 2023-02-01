@@ -62,9 +62,9 @@ public class WebSecurityConfiguration  extends WebSecurityConfigurerAdapter {
                 .antMatchers("/authorization/login").permitAll()
                 .antMatchers("/order/test").permitAll()
                 .antMatchers("/mail/sendMail").permitAll()
-                .antMatchers("/employee").hasAnyAuthority("ADMIN")
+                .antMatchers("/employee/**").hasAnyAuthority("ADMIN")
                 .antMatchers("/order/delete/{id}").hasAnyAuthority("ADMIN")
-                .antMatchers("/task").hasAnyAuthority("ADMIN")
+                .antMatchers("/task/**").hasAnyAuthority("ADMIN")
 
                 .anyRequest().authenticated();
 
