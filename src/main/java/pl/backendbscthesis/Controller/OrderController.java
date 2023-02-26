@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.bind.annotation.*;
 import pl.backendbscthesis.Entity.Order;
 import pl.backendbscthesis.PdfGeneration;
-import pl.backendbscthesis.service.OrderService;
+import pl.backendbscthesis.Service.OrderService;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -22,8 +22,8 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 @EnableTransactionManagement
 public class OrderController {
-    private final OrderService orderService;
 
+    private final OrderService orderService;
 
     @Autowired
     public OrderController(OrderService orderService) throws DocumentException, IOException {
@@ -37,7 +37,7 @@ public class OrderController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Order> postOrder(@RequestBody Order orderBody) {
+    public ResponseEntity<Order> createOrder(@RequestBody Order orderBody) {
         Order newOrder = orderService.createNewOrder(orderBody);
         return new ResponseEntity<>(newOrder, HttpStatus.CREATED);
     }
@@ -48,13 +48,11 @@ public class OrderController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
     @PostMapping("/duplicate")
-    public ResponseEntity<Order> duplicateOrder(@RequestBody Long id) {
+    public ResponseEntity<Order> createDuplicatedOrder(@RequestBody Long id) {
         Order duplicateOrder = orderService.duplicateOrderById(id);
         return new ResponseEntity<>(duplicateOrder, HttpStatus.CREATED);
     }
-
 
     @GetMapping("/one/{id}")
     public ResponseEntity<Order> getOneOrder(@PathVariable Long id) {
@@ -63,13 +61,13 @@ public class OrderController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Order> putOrder(@RequestBody Order orderBody) {
+    public ResponseEntity<Order> updateOrder(@RequestBody Order orderBody) {
         Order order = orderService.updateOrder(orderBody);
         return new ResponseEntity<>(order, HttpStatus.OK);
     }
 
     @PostMapping(value = "/protocol", produces = MediaType.APPLICATION_PDF_VALUE)
-    public ResponseEntity<InputStreamResource> orderProtocolGeneration(@RequestBody Order orderBody) throws DocumentException, IOException {
+    public ResponseEntity<InputStreamResource> createOrderProtocol(@RequestBody Order orderBody) throws DocumentException, IOException {
         PdfGeneration pdfGeneration = new PdfGeneration();
         ByteArrayInputStream orderPdf = pdfGeneration.createProtocol(orderBody);
         HttpHeaders headers = new HttpHeaders();
@@ -83,7 +81,7 @@ public class OrderController {
     }
 
     @PostMapping(value = "/invoice", produces = MediaType.APPLICATION_PDF_VALUE)
-    public ResponseEntity<InputStreamResource> orderInvoiceGeneration(@RequestBody Order orderBody) throws DocumentException, IOException {
+    public ResponseEntity<InputStreamResource> createOrderInvoice(@RequestBody Order orderBody) throws DocumentException, IOException {
         PdfGeneration pdfGeneration = new PdfGeneration();
         ByteArrayInputStream orderPdf = pdfGeneration.createInvoice(orderBody);
         HttpHeaders headers = new HttpHeaders();
@@ -95,8 +93,4 @@ public class OrderController {
                 .contentType(MediaType.APPLICATION_PDF)
                 .body(new InputStreamResource(orderPdf));
     }
-
-
-
-
 }

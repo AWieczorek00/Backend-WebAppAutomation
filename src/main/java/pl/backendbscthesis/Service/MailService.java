@@ -1,4 +1,4 @@
-package pl.backendbscthesis.service;
+package pl.backendbscthesis.Service;
 
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;

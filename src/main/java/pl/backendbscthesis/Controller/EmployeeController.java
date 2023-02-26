@@ -5,13 +5,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.backendbscthesis.Entity.Employee;
-import pl.backendbscthesis.service.EmployeeService;
+import pl.backendbscthesis.Service.EmployeeService;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/employee")
-@CrossOrigin(origins="*")
+@CrossOrigin(origins = "*")
 public class EmployeeController {
 
     private final EmployeeService employeeService;
@@ -22,35 +22,32 @@ public class EmployeeController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Employee>> getAllEmployee(){
+    public ResponseEntity<List<Employee>> getAllEmployee() {
         List<Employee> employeeList = employeeService.findAllEmployees();
-        return new ResponseEntity<>(employeeList,HttpStatus.OK);
+        return new ResponseEntity<>(employeeList, HttpStatus.OK);
     }
 
-
     @GetMapping("/{individualId}")
-    public ResponseEntity<Employee> getEmployee(@PathVariable Long individualId){
+    public ResponseEntity<Employee> getEmployee(@PathVariable Long individualId) {
         Employee employee = employeeService.findEmployeeByIndividualId(individualId);
         return new ResponseEntity<>(employee, HttpStatus.OK);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Employee> postEmployee(@RequestBody Employee employeeBody){
+    public ResponseEntity<Employee> createEmployee(@RequestBody Employee employeeBody) {
         Employee employee = employeeService.createNewEmployee(employeeBody);
         return new ResponseEntity<>(employee, HttpStatus.CREATED);
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Employee> putEmployee(@RequestBody Employee employeeBody){
+    public ResponseEntity<Employee> updateEmployee(@RequestBody Employee employeeBody) {
         Employee employee = employeeService.updateEmployee(employeeBody);
-        return  new ResponseEntity<>(employee,HttpStatus.OK);
+        return new ResponseEntity<>(employee, HttpStatus.OK);
     }
 
-
     @DeleteMapping("/delete/{individualId}")
-    public ResponseEntity<?> deleteEmployee(@PathVariable Long individualId){
+    public ResponseEntity<?> deleteEmployee(@PathVariable Long individualId) {
         employeeService.deleteEmployeeById(individualId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
 }

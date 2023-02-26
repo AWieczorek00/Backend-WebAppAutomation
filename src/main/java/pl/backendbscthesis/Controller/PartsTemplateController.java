@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.backendbscthesis.Entity.template.PartsTemplate;
-import pl.backendbscthesis.service.PartsTemplateService;
+import pl.backendbscthesis.Service.PartsTemplateService;
 
 import java.util.List;
 
@@ -26,9 +26,8 @@ public class PartsTemplateController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<PartsTemplate>> getAll(){
+    public ResponseEntity<List<PartsTemplate>> getAllPartsTemplate() {
         List<PartsTemplate> partsTemplateList = partsTemplateService.findAll();
         return new ResponseEntity<>(partsTemplateList, HttpStatus.OK);
     }
-
 }

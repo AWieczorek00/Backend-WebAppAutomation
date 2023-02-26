@@ -5,8 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.backendbscthesis.Entity.Task;
-import pl.backendbscthesis.service.MailService;
-import pl.backendbscthesis.service.TaskService;
+import pl.backendbscthesis.Service.MailService;
+import pl.backendbscthesis.Service.TaskService;
 
 import javax.mail.MessagingException;
 import java.util.List;
@@ -17,6 +17,7 @@ import java.util.List;
 public class TaskController {
 
     private final TaskService taskService;
+
     private final MailService mailService;
 
     @Autowired
@@ -38,17 +39,17 @@ public class TaskController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Task> postTask(@RequestBody Task taskBody) throws MessagingException {
+    public ResponseEntity<Task> createTask(@RequestBody Task taskBody) throws MessagingException {
         Task task = taskService.createTask(taskBody);
         mailService.sendMail(taskBody.getEmployee().getEmail(), "Dostałeś/aś nowe zadanie",
                 "<p style=\"text - align:center;\"><strong>Do twojego konta zostało dodane nowe zadanie.</strong></p>" +
                         "\n" +
-                        "<p style=\" text - align:center;\"><strong>Sprawdzi je u siebie</strong></p>",true);
+                        "<p style=\" text - align:center;\"><strong>Sprawdzi je u siebie</strong></p>", true);
         return new ResponseEntity<>(task, HttpStatus.CREATED);
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Task> putTask(@RequestBody Task taskBody) {
+    public ResponseEntity<Task> updateTask(@RequestBody Task taskBody) {
         Task task = taskService.updateTask(taskBody);
         return new ResponseEntity<>(task, HttpStatus.OK);
     }
@@ -60,7 +61,7 @@ public class TaskController {
     }
 
     @PutMapping("/update/done")
-    public ResponseEntity<Task> doneTaskUpdate(@RequestBody Task taskBody) {
+    public ResponseEntity<Task> updateTaskCompleted(@RequestBody Task taskBody) {
         Task task = taskService.taskCompletion(taskBody);
         return new ResponseEntity<>(task, HttpStatus.OK);
     }
