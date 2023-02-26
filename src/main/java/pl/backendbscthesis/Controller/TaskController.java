@@ -17,7 +17,6 @@ import java.util.List;
 public class TaskController {
 
     private final TaskService taskService;
-
     private final MailService mailService;
 
     @Autowired
@@ -27,21 +26,20 @@ public class TaskController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Task>> getAllTask() {
-        List<Task> taskList = taskService.findAllTask();
+    public ResponseEntity<List<Task>> getAllTasks() {
+        List<Task> taskList = taskService.findAllTasks();
         return new ResponseEntity<>(taskList, HttpStatus.OK);
     }
 
     @GetMapping("/employee/all")
     public ResponseEntity<List<Task>> getAllTaskByEmployee(@RequestParam Long individualId) {
-        List<Task> taskList = taskService.findAllTaskByEmployee(individualId);
+        List<Task> taskList = taskService.findAllTaskForEmployeeByIndividualId(individualId);
         return new ResponseEntity<>(taskList, HttpStatus.OK);
     }
 
-
     @PostMapping("/add")
     public ResponseEntity<Task> postTask(@RequestBody Task taskBody) throws MessagingException {
-        Task task = taskService.addTask(taskBody);
+        Task task = taskService.createTask(taskBody);
         mailService.sendMail(taskBody.getEmployee().getEmail(), "Dostałeś/aś nowe zadanie",
                 "<p style=\"text - align:center;\"><strong>Do twojego konta zostało dodane nowe zadanie.</strong></p>" +
                         "\n" +
@@ -51,20 +49,19 @@ public class TaskController {
 
     @PutMapping("/update")
     public ResponseEntity<Task> putTask(@RequestBody Task taskBody) {
-        Task task = taskService.update(taskBody);
+        Task task = taskService.updateTask(taskBody);
         return new ResponseEntity<>(task, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteTask(@PathVariable Long id) {
-        taskService.delete(id);
+        taskService.deleteTaskById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping("/update/done")
     public ResponseEntity<Task> doneTaskUpdate(@RequestBody Task taskBody) {
-        Task task = taskService.doneTaskUpdate(taskBody);
+        Task task = taskService.taskCompletion(taskBody);
         return new ResponseEntity<>(task, HttpStatus.OK);
     }
-
 }

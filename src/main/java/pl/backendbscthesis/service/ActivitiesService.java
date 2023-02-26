@@ -12,15 +12,13 @@ public class ActivitiesService {
 
     private final ActivitiesRepository activitiesRepository;
 
-
     @Autowired
     public ActivitiesService(ActivitiesRepository activitiesRepository) {
         this.activitiesRepository = activitiesRepository;
     }
 
-    public List<Activities> createActivitiesList(List<Activities> activitiesList){
-        return activitiesRepository.saveAll(activitiesList);
-
+    public void createAllActivitiesFromList(List<Activities> activitiesList) {
+        activitiesRepository.saveAll(activitiesList);
     }
 
     public List<Activities> updateActivitiesList(List<Activities> newActivitiesList, List<Activities> oldActivitiesList) {

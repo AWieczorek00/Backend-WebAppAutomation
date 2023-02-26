@@ -17,14 +17,11 @@ public class ClientService {
         this.clientRepository = clientRepository;
     }
 
-
-    public List<Client> findAllClient() {
+    public List<Client> findAllClients() {
         return clientRepository.findAll();
     }
 
     public Client createClient(Client client) {
         return clientRepository.save(client);
     }
-
-
 }

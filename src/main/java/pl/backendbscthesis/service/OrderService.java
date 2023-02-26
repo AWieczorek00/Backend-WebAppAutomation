@@ -15,11 +15,8 @@ import java.util.List;
 public class OrderService {
     private final OrderRepository orderRepository;
     private final ActivitiesService activitiesService;
-
     private final PartService partService;
-
     private final ClientService clientService;
-
 
     @Autowired
     public OrderService(OrderRepository orderRepository, ActivitiesService activitiesService, PartService partService, ClientService clientService) {
@@ -34,23 +31,22 @@ public class OrderService {
     }
 
     @Transactional()
-    public Order add(Order orderBody) {
-        activitiesService.createActivitiesList(orderBody.getActivitiesList());
+    public Order createNewOrder(Order orderBody) {
+        activitiesService.createAllActivitiesFromList(orderBody.getActivitiesList());
         partService.createAllParts(orderBody.getPartList());
-        if(orderBody.getClient().getId()==null){
+        if (orderBody.getClient().getId() == null) {
             clientService.createClient(orderBody.getClient());
         }
         return orderRepository.saveAndFlush(orderBody);
     }
 
-
     @Transactional
-    public void delete(Long id) {
+    public void deleteOrderById(Long id) {
         orderRepository.deleteById(id);
     }
 
     @Transactional
-    public Order duplicate(Long id) {
+    public Order duplicateOrderById(Long id) {
         return orderRepository.findById(id)
                 .map(order -> {
                     Order orderDuplicate = new Order(
@@ -58,19 +54,14 @@ public class OrderService {
                     );
                     return orderRepository.save(orderDuplicate);
                 }).orElseThrow(() -> new ResourceNotFoundException("Nie zaleziono takiego zelecenia do powielenia"));
-
     }
 
-
     public Order findOrderById(Long id) {
-
         return orderRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono zlecenia o takim id: " + id));
-
     }
 
     @Transactional
     public Order updateOrder(Order orderBody) {
-
         return orderRepository.findById(orderBody.getId()).map(orderUpdate -> {
             orderUpdate.setClient(orderBody.getClient());
             orderUpdate.setActivitiesList(activitiesService.updateActivitiesList(orderBody.getActivitiesList(), orderUpdate.getActivitiesList()));
@@ -84,7 +75,6 @@ public class OrderService {
             orderUpdate.setNote(orderBody.getNote());
             return orderRepository.save(orderUpdate);
         }).orElseThrow(() -> new ResourceNotFoundException("nie znaleziono"));
-
     }
 }
 

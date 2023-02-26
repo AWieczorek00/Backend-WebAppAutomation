@@ -38,20 +38,20 @@ public class OrderController {
 
     @PostMapping("/add")
     public ResponseEntity<Order> postOrder(@RequestBody Order orderBody) {
-        Order newOrder = orderService.add(orderBody);
+        Order newOrder = orderService.createNewOrder(orderBody);
         return new ResponseEntity<>(newOrder, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteOrder(@PathVariable Long id) {
-        orderService.delete(id);
+        orderService.deleteOrderById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
     @PostMapping("/duplicate")
     public ResponseEntity<Order> duplicateOrder(@RequestBody Long id) {
-        Order duplicateOrder = orderService.duplicate(id);
+        Order duplicateOrder = orderService.duplicateOrderById(id);
         return new ResponseEntity<>(duplicateOrder, HttpStatus.CREATED);
     }
 

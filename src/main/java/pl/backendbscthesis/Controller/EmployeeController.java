@@ -23,7 +23,7 @@ public class EmployeeController {
 
     @GetMapping("/all")
     public ResponseEntity<List<Employee>> getAllEmployee(){
-        List<Employee> employeeList = employeeService.findAllEmployee();
+        List<Employee> employeeList = employeeService.findAllEmployees();
         return new ResponseEntity<>(employeeList,HttpStatus.OK);
     }
 
@@ -36,20 +36,20 @@ public class EmployeeController {
 
     @PostMapping("/add")
     public ResponseEntity<Employee> postEmployee(@RequestBody Employee employeeBody){
-        Employee employee = employeeService.addEmployee(employeeBody);
+        Employee employee = employeeService.createNewEmployee(employeeBody);
         return new ResponseEntity<>(employee, HttpStatus.CREATED);
     }
 
     @PutMapping("/update")
     public ResponseEntity<Employee> putEmployee(@RequestBody Employee employeeBody){
-        Employee employee = employeeService.updateEmployee(employeeBody, employeeBody.getIndividualId());
+        Employee employee = employeeService.updateEmployee(employeeBody);
         return  new ResponseEntity<>(employee,HttpStatus.OK);
     }
 
 
     @DeleteMapping("/delete/{individualId}")
     public ResponseEntity<?> deleteEmployee(@PathVariable Long individualId){
-        employeeService.deleteEmployee(individualId);
+        employeeService.deleteEmployeeById(individualId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
