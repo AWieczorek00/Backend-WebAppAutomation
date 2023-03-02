@@ -1,77 +1,82 @@
 package pl.backendbscthesis.Configuration;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import pl.backendbscthesis.security.Session.SessionFilter;
-import pl.backendbscthesis.security.User.UserService;
-
-import javax.servlet.http.HttpServletResponse;
+import pl.backendbscthesis.security.Jwt.AuthEntryPointJwt;
+import pl.backendbscthesis.security.Jwt.AuthTokenFilter;
+import pl.backendbscthesis.security.service.UserDetailsServiceImpl;
 
 @Configuration
-@EnableWebSecurity
-public class WebSecurityConfiguration  extends WebSecurityConfigurerAdapter {
-    private final UserService userService;
+@EnableGlobalMethodSecurity(
+        prePostEnabled = true
+)
+public class WebSecurityConfiguration {
+    @Autowired
+    UserDetailsServiceImpl userDetailsService;
+    @Autowired
+    private AuthEntryPointJwt unauthorizedHandler;
 
-    private final SessionFilter sessionFilter;
-    private final PasswordEncoder passwordEncoder;
-
-    public WebSecurityConfiguration(UserService userService, SessionFilter sessionFilter, @Lazy PasswordEncoder passwordEncoder) {
-        this.userService = userService;
-        this.sessionFilter = sessionFilter;
-        this.passwordEncoder = passwordEncoder;
+    @Bean
+    public AuthTokenFilter authenticationJwtTokenFilter() {
+        return new AuthTokenFilter();
     }
 
     @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+
+        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setPasswordEncoder(passwordEncoder());
+
+        return authProvider;
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
+        return authConfig.getAuthenticationManager();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    @Override
     @Bean
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService).passwordEncoder(passwordEncoder);
-    }
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http = http.cors().and().csrf().disable();
-
-
-        http = http.exceptionHandling().authenticationEntryPoint(
-                (request, response, ex) -> response.sendError(
-                        HttpServletResponse.SC_UNAUTHORIZED,
-                        ex.getMessage())
-        ).and();
-
-        http.authorizeRequests()
-                .antMatchers("/authorization/login").permitAll()
-                .antMatchers("/order/test").permitAll()
-                .antMatchers("/mail/sendMail").permitAll()
-                .antMatchers("/employee/**").hasAnyAuthority("ADMIN")
-                .antMatchers("/order/delete/{id}").hasAnyAuthority("ADMIN")
-                .antMatchers("/task/**").hasAnyAuthority("ADMIN")
-
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.cors().and().csrf().disable()
+                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .authorizeRequests()
+                .antMatchers("/auth/signup").permitAll()
+                .antMatchers("/auth/signin").permitAll()
+//                .antMatchers("/auth/list").permitAll()
+//                .antMatchers("/order/test").permitAll()
+//                .antMatchers("/mail/sendMail").permitAll()
+//                .antMatchers("/employee/**").permitAll()
+//                .antMatchers("/order/delete/{id}").permitAll()
+//                .antMatchers("/task/**").permitAll()
                 .anyRequest().authenticated();
 
-        http.addFilterBefore(
+        http.headers().frameOptions().disable();
 
-                sessionFilter,
-                UsernamePasswordAuthenticationFilter.class
-        );
+
+        http.authenticationProvider(authenticationProvider());
+
+        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+
+        return http.build();
     }
 }

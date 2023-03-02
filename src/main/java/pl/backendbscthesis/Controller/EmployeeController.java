@@ -3,6 +3,7 @@ package pl.backendbscthesis.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pl.backendbscthesis.Entity.Employee;
 import pl.backendbscthesis.Service.EmployeeService;
@@ -12,6 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/employee")
 @CrossOrigin(origins = "*")
+@PreAuthorize("hasRole('ADMIN')")
 public class EmployeeController {
 
     private final EmployeeService employeeService;
@@ -21,7 +23,9 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
+
     @GetMapping("/all")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<List<Employee>> getAllEmployee() {
         List<Employee> employeeList = employeeService.findAllEmployees();
         return new ResponseEntity<>(employeeList, HttpStatus.OK);

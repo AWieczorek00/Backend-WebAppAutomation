@@ -3,18 +3,25 @@ package pl.backendbscthesis.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pl.backendbscthesis.Enum.ERole;
 
 import javax.persistence.*;
 
 @Entity
 @Data
-@AllArgsConstructor
+@Table(name="roles")
 @NoArgsConstructor
 public class Role {
+    public Role(ERole name) {
+        this.name = name;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
 
+    @Enumerated(EnumType.STRING)
     @Column(length = 20)
-    private String name;
+    private ERole name;
 }

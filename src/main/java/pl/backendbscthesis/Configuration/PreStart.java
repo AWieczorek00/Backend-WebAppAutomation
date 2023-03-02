@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Configuration;
 import pl.backendbscthesis.Entity.*;
 import pl.backendbscthesis.Entity.template.ActivitiesTemplate;
 import pl.backendbscthesis.Entity.template.PartsTemplate;
+import pl.backendbscthesis.Enum.ERole;
 import pl.backendbscthesis.Repository.*;
 
 import java.time.LocalDate;
@@ -33,12 +34,14 @@ public class PreStart {
         employeeRepository.save(Kamil);
         employeeRepository.save(Pawel);
 
-        roleRepository.save(new Role(0L, "ADMIN"));
-        roleRepository.save(new Role(0L, "USER"));
-        Set<Role> rolesAdmin = new HashSet<>();
-        Set<Role> rolesUser = new HashSet<>();
-        rolesAdmin.add(new Role(1L, "ADMIN"));
-        rolesUser.add(new Role(2L, "USER"));
+        roleRepository.save(new Role(ERole.ROLE_ADMIN));
+        roleRepository.save(new Role(ERole.ROLE_MODERATOR));
+        roleRepository.save(new Role(ERole.ROLE_USER));
+//        roleRepository.save(new Role(0L, "USER"));
+//        Set<Role> rolesAdmin = new HashSet<>();
+//        Set<Role> rolesUser = new HashSet<>();
+//        rolesAdmin.add(new Role(1L, "ADMIN"));
+//        rolesUser.add(new Role(2L, "USER"));
 
         activitiesTemplateRepository.save(new ActivitiesTemplate("Analiza spalin"));
         activitiesTemplateRepository.save(new ActivitiesTemplate("Analiza komina"));
@@ -69,8 +72,8 @@ public class PreStart {
 
 
 
-        userRepo.save(new User(0L, "user1", "$2a$10$4EvCE3wPMBPYEV/FA8B.3e1mrlCGaVuq.cO0x0fmrt198H61q/dFG", "test@wp.pl", rolesAdmin, Adam));
-        userRepo.save(new User(0L,"user2","$2a$10$hvOa9FAisXftunkgb/QmkO5FLTQCI123rKTY.yuWAv9DjOW43/cSi","test@wp.pl",rolesUser,Paulina));
+//        userRepo.save(new User(0L, "user1", "$2a$10$4EvCE3wPMBPYEV/FA8B.3e1mrlCGaVuq.cO0x0fmrt198H61q/dFG", "test@wp.pl", rolesAdmin, Adam));
+//        userRepo.save(new User(0L,"user2","$2a$10$hvOa9FAisXftunkgb/QmkO5FLTQCI123rKTY.yuWAv9DjOW43/cSi","test@wp.pl",rolesUser,Paulina));
 
 
 

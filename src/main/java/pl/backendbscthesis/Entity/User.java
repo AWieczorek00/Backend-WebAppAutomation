@@ -5,14 +5,21 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
-@Data
 @Entity
+@Data
+@Table(name = "users",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = "username"),
+                @UniqueConstraint(columnNames = "email"),
+        })
+
 @NoArgsConstructor
-@AllArgsConstructor
-@Table(name = "users")
 public class User {
 
     @Id
@@ -20,20 +27,32 @@ public class User {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(nullable = false)
+    public User(String username, String email, String password) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
+
+    @NotBlank
+    @Size(max = 20)
     private String username;
 
-    @Column(nullable = false)
-    private String password;
-
-    @Column(nullable = false)
+    @NotBlank
+    @Size(max = 50)
+    @Email
     private String email;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name="role_id")
-    private Set<Role> roles =  new HashSet<>();;
+    @NotBlank
+    @Size(max = 120)
+    private String password;
 
-    @OneToOne
-    @JoinColumn(name = "employee_individual_id")
-    private Employee employee;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
+
+//    @OneToOne
+//    @JoinColumn(name = "employee_individual_id")
+//    private Employee employee;
 }
