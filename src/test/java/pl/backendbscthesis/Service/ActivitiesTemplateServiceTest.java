@@ -18,10 +18,10 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-@ActiveProfiles("test")
 class ActivitiesTemplateServiceTest {
 
     @Mock
@@ -35,7 +35,7 @@ class ActivitiesTemplateServiceTest {
     void createActivitiesTemplate() {
         //given
         ActivitiesTemplate activitiesTemplate = new ActivitiesTemplate("Activity 1");
-        when(activitiesTemplateRepository.save(activitiesTemplate)).thenReturn(activitiesTemplate);
+        given(activitiesTemplateRepository.save(activitiesTemplate)).willReturn(activitiesTemplate);
 
         // when
         ActivitiesTemplate savedActivitiesTemplate = activitiesTemplateService.createActivitiesTemplate(activitiesTemplate);
@@ -60,11 +60,7 @@ class ActivitiesTemplateServiceTest {
 
         // then
         assertEquals(activitiesTemplates.size(), result.size());
-        assertEquals(activitiesTemplates.get(0).getName(), result.get(0).getName());
-        assertEquals(activitiesTemplates.get(0).getId(), result.get(0).getId());
-        assertEquals(activitiesTemplates.get(1).getName(), result.get(1).getName());
-        assertEquals(activitiesTemplates.get(1).getId(), result.get(1).getId());
-
+        assertThat(result).isEqualTo(activitiesTemplates);
     }
 
     @Test

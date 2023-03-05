@@ -36,8 +36,4 @@ public class Employee {
 
     @Column(nullable = false)
     private LocalDate dateOfCreation;
-
-
-
-
 }
