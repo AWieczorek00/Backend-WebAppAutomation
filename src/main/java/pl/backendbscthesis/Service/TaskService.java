@@ -42,14 +42,14 @@ public class TaskService {
             taskUpdate.setExecutionTime(task.getExecutionTime());
             taskUpdate.setEmployee(task.getEmployee());
             return taskRepository.save(taskUpdate);
-        }).orElseThrow();
+        }).orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono zadania o id"+task.getId()));
     }
 
-    public Task taskCompletion(Task taskBody) {
-        return taskRepository.findById(taskBody.getId())
+    public Task taskCompletion(Task task) {
+        return taskRepository.findById(task.getId())
                 .map(taskUpdate -> {
-                    taskUpdate.setDone(taskBody.getDone());
+                    taskUpdate.setDone(task.getDone());
                     return taskRepository.save(taskUpdate);
-                }).orElseThrow();
+                }).orElseThrow(() -> new ResourceNotFoundException("Nie znaleziono zadania o id"+task.getId()));
     }
 }

@@ -18,12 +18,8 @@ public class PartService {
         this.partRepository = partRepository;
     }
 
-    public void createAllParts(List<Part> partList) {
-        partRepository.saveAll(partList);
-    }
-
-    public void deletePart(Part part) {
-        partRepository.delete(part);
+    public List<Part> createAllParts(List<Part> partList) {
+        return partRepository.saveAll(partList);
     }
 
     @Transactional

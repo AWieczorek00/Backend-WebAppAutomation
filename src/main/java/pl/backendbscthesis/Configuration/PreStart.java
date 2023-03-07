@@ -28,7 +28,7 @@ public class PreStart {
         Employee Paulina = new Employee(5678L, "Paulina", "", "Żelek", "awieczorek0000@gmail.com", 123456789L, LocalDate.now());
         Employee Kamil = new Employee(2674L, "Kamil", "", "Kowalski", "kamil.kolwaski@wp.pl", 123456789L, LocalDate.now());
         Employee Pawel = new Employee(5671L, "Paweł", "Zygmunt", "Nowak", "pwael1994@gmail.com", 123456789L, LocalDate.now());
-        List<Employee> employeeList = Arrays.asList(Adam, Paulina,Kamil,Pawel);
+        List<Employee> employeeList = Arrays.asList(Adam, Paulina);
         employeeRepository.save(Adam);
         employeeRepository.save(Paulina);
         employeeRepository.save(Kamil);

@@ -112,7 +112,6 @@ class EmployeeServiceTest {
         assertThrows(ResourceNotFoundException.class, () -> employeeService.updateEmployee(updatedEmployee));
         verify(employeeRepository).findByIndividualId(individualId);
         verify(employeeRepository, never()).save(any(Employee.class));
-
     }
 
 

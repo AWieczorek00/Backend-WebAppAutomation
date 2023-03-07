@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import pl.backendbscthesis.Dto.EmailDto;
 import pl.backendbscthesis.Entity.Task;
 import pl.backendbscthesis.Service.MailService;
 import pl.backendbscthesis.Service.TaskService;
@@ -43,10 +44,11 @@ public class TaskController {
     @PostMapping("/add")
     public ResponseEntity<Task> createTask(@RequestBody Task taskBody) throws MessagingException {
         Task task = taskService.createTask(taskBody);
-        mailService.sendMail(taskBody.getEmployee().getEmail(), "Dostałeś/aś nowe zadanie",
+        EmailDto emailDto = new EmailDto(taskBody.getEmployee().getEmail(), "Dostałeś/aś nowe zadanie",
                 "<p style=\"text - align:center;\"><strong>Do twojego konta zostało dodane nowe zadanie.</strong></p>" +
-                        "\n" +
-                        "<p style=\" text - align:center;\"><strong>Sprawdzi je u siebie</strong></p>", true);
+                "\n" +
+                "<p style=\" text - align:center;\"><strong>Sprawdzi je u siebie</strong></p>", true);
+        mailService.sendMail(emailDto);
         return new ResponseEntity<>(task, HttpStatus.CREATED);
     }
 

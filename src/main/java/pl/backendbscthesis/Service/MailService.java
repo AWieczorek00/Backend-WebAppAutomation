@@ -3,6 +3,7 @@ package pl.backendbscthesis.Service;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import pl.backendbscthesis.Dto.EmailDto;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -16,12 +17,12 @@ public class MailService {
         this.javaMailSender = javaMailSender;
     }
 
-    public void sendMail(String to, String subject, String text, boolean isHtmlContent) throws MessagingException {
+    public void sendMail(EmailDto emailDto) throws MessagingException {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
-        mimeMessageHelper.setTo(to);
-        mimeMessageHelper.setSubject(subject);
-        mimeMessageHelper.setText(text, isHtmlContent);
+        mimeMessageHelper.setTo(emailDto.getEmail());
+        mimeMessageHelper.setSubject(emailDto.getSubject());
+        mimeMessageHelper.setText(emailDto.getText(), emailDto.getIsHtmlContent());
         javaMailSender.send(mimeMessage);
     }
 }
