@@ -62,12 +62,6 @@ public class WebSecurityConfiguration {
                 .authorizeRequests()
                 .antMatchers("/auth/signup").permitAll()
                 .antMatchers("/auth/signin").permitAll()
-//                .antMatchers("/auth/list").permitAll()
-//                .antMatchers("/order/test").permitAll()
-//                .antMatchers("/mail/sendMail").permitAll()
-//                .antMatchers("/employee/**").permitAll()
-//                .antMatchers("/order/delete/{id}").permitAll()
-//                .antMatchers("/task/**").permitAll()
                 .anyRequest().authenticated();
 
         http.headers().frameOptions().disable();
