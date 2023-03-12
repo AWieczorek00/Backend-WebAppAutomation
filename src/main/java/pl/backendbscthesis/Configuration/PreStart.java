@@ -1,6 +1,11 @@
 package pl.backendbscthesis.Configuration;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 import pl.backendbscthesis.Entity.*;
 import pl.backendbscthesis.Entity.template.ActivitiesTemplate;
 import pl.backendbscthesis.Entity.template.PartsTemplate;
@@ -12,6 +17,10 @@ import java.util.*;
 
 @Configuration
 public class PreStart {
+
+    final
+    PasswordEncoder encoder;
+
     public PreStart(
             UserRepository userRepo,
             RoleRepository roleRepository,
@@ -20,15 +29,15 @@ public class PreStart {
             ActivitiesRepository activitiesRepository,
             OrderRepository orderRepository,
             ClientRepository clientRepository,
-            PartsTemplateRepository partsTemplateRepository
-            ) {
+            PartsTemplateRepository partsTemplateRepository,
+            PasswordEncoder encoder) {
+        this.encoder = encoder;
 
 
         Employee Adam = new Employee(1234L, "Adam", "Andrzej", "Wieczorek", "adam98523@gmail.com", 123456789L, LocalDate.now());
         Employee Paulina = new Employee(5678L, "Paulina", "", "Żelek", "awieczorek0000@gmail.com", 123456789L, LocalDate.now());
         Employee Kamil = new Employee(2674L, "Kamil", "", "Kowalski", "kamil.kolwaski@wp.pl", 123456789L, LocalDate.now());
         Employee Pawel = new Employee(5671L, "Paweł", "Zygmunt", "Nowak", "pwael1994@gmail.com", 123456789L, LocalDate.now());
-        List<Employee> employeeList = Arrays.asList(Adam, Paulina);
         employeeRepository.save(Adam);
         employeeRepository.save(Paulina);
         employeeRepository.save(Kamil);
@@ -38,9 +47,9 @@ public class PreStart {
         roleRepository.save(new Role(ERole.ROLE_MODERATOR));
         roleRepository.save(new Role(ERole.ROLE_USER));
 //        roleRepository.save(new Role(0L, "USER"));
-//        Set<Role> rolesAdmin = new HashSet<>();
+        Set<Role> admin = new HashSet<>();
 //        Set<Role> rolesUser = new HashSet<>();
-//        rolesAdmin.add(new Role(1L, "ADMIN"));
+//        rolesAdmin.add("admin");
 //        rolesUser.add(new Role(2L, "USER"));
 
         activitiesTemplateRepository.save(new ActivitiesTemplate("Analiza spalin"));
@@ -72,10 +81,16 @@ public class PreStart {
 
 
 
-//        userRepo.save(new User(0L, "user1", "$2a$10$4EvCE3wPMBPYEV/FA8B.3e1mrlCGaVuq.cO0x0fmrt198H61q/dFG", "test@wp.pl", rolesAdmin, Adam));
 //        userRepo.save(new User(0L,"user2","$2a$10$hvOa9FAisXftunkgb/QmkO5FLTQCI123rKTY.yuWAv9DjOW43/cSi","test@wp.pl",rolesUser,Paulina));
-
-
+        User user = new User("user1", "test@wp.pl", encoder.encode("user1"),new Employee(1234L, "Adam", "Andrzej", "Wieczorek", "adam98523@gmail.com", 123456789L, LocalDate.now()));
+        System.out.println(user);
+        Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        admin.add(adminRole);
+        user.setRoles(admin);
+//        user.setEmployee(Adam);
+        System.out.println(user);
+        userRepo.save(user);
 
     }
 }

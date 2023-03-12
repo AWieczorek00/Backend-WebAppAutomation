@@ -20,6 +20,7 @@ import java.util.Set;
         })
 
 @NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
     @Id
@@ -27,10 +28,11 @@ public class User {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    public User(String username, String email, String password) {
+    public User(String username, String email, String password,Employee employee) {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.employee = employee;
     }
 
     @NotBlank
@@ -52,7 +54,7 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-//    @OneToOne
-//    @JoinColumn(name = "employee_individual_id")
-//    private Employee employee;
+    @OneToOne
+    @JoinColumn(name = "employee_individual_id")
+    private Employee employee;
 }

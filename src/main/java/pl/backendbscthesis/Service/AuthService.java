@@ -8,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.backendbscthesis.Dto.JwtDto;
 import pl.backendbscthesis.Dto.LoginDto;
 import pl.backendbscthesis.Dto.MessageDto;
@@ -43,6 +44,9 @@ public class AuthService {
     @Autowired
     PasswordEncoder encoder;
 
+    @Autowired
+    EmployeeService employeeService;
+
     public JwtDto authenticateUser(LoginDto loginDto) {
 
         Authentication authentication = getAuthenticate(loginDto);
@@ -54,7 +58,7 @@ public class AuthService {
         List<String> roles = getRolesAssignedToUser(userDetails);
 
         JwtDto jwtDto = new JwtDto(jwt,
-                userDetails.getId(),
+                userDetails.getIndividualId(),
                 userDetails.getUsername(),
                 userDetails.getEmail(),
                 roles);
@@ -62,6 +66,7 @@ public class AuthService {
         return jwtDto;
     }
 
+    @Transactional
     public MessageDto registerUser(SignUpDto signUpRequest) {
         isExistUsernameOrPasswordThrowException(userRepository.existsByUsername(signUpRequest.getUsername()), "Error: Username is already taken!");
 
@@ -72,7 +77,8 @@ public class AuthService {
         Set<String> strRoles = signUpRequest.getRole();
 
         user.setRoles(setRolesOrThrowException(strRoles));
-        this.userRepository.save(user);
+        employeeService.createNewEmployee(signUpRequest.getEmployee());
+        userRepository.save(user);
 
         return new MessageDto("User registered successfully!");
     }
@@ -116,7 +122,8 @@ public class AuthService {
     private User createUser(SignUpDto signUpRequest) {
         return new User(signUpRequest.getUsername(),
                 signUpRequest.getEmail(),
-                encoder.encode(signUpRequest.getPassword()));
+                encoder.encode(signUpRequest.getPassword()),
+                signUpRequest.getEmployee());
     }
 
     private Authentication getAuthenticate(LoginDto loginDto) {

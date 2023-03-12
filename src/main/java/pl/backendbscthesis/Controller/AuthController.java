@@ -17,6 +17,7 @@ import pl.backendbscthesis.Dto.SignUpDto;
 import pl.backendbscthesis.Entity.Role;
 import pl.backendbscthesis.Entity.User;
 import pl.backendbscthesis.Enum.ERole;
+import pl.backendbscthesis.Repository.EmployeeRepository;
 import pl.backendbscthesis.Repository.RoleRepository;
 import pl.backendbscthesis.Repository.UserRepository;
 import pl.backendbscthesis.Service.AuthService;
@@ -37,6 +38,9 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
+    @Autowired
+    private UserRepository userRepository;
+
 
     @PostMapping("/signin")
     public ResponseEntity<JwtDto> authenticateUser(@Valid @RequestBody LoginDto loginDto) {
@@ -47,6 +51,9 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpDto signUpRequest) {
+
+        System.out.println(signUpRequest);
+
             MessageDto messageDto;
         try {
             messageDto=authService.registerUser(signUpRequest);
@@ -56,5 +63,13 @@ public class AuthController {
 
         return new ResponseEntity<>(messageDto,HttpStatus.OK);
     }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<User>> all(){
+        List<User> users = userRepository.findAll();
+        return new ResponseEntity<>(users,HttpStatus.OK);
+    }
+
+
 
 }

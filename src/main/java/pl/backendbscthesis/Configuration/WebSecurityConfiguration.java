@@ -62,6 +62,7 @@ public class WebSecurityConfiguration {
                 .authorizeRequests()
                 .antMatchers("/auth/signup").permitAll()
                 .antMatchers("/auth/signin").permitAll()
+                .antMatchers("/auth/all").permitAll()
                 .anyRequest().authenticated();
 
         http.headers().frameOptions().disable();
