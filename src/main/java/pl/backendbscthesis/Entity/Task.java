@@ -13,6 +13,7 @@ import java.util.Optional;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name="task")
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

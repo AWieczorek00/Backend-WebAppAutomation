@@ -13,11 +13,12 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "employees")
+@Table(name = "employee")
 public class Employee {
 
     @Id
     @Column(name = "individual_id", nullable = false)
+//    @GeneratedValue(strategy = GenerationType.)
     private Long individualId;
 
     @Column(nullable = false)

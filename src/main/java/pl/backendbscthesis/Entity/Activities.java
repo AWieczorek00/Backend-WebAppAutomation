@@ -23,7 +23,6 @@ public class Activities {
     @Column(name = "id", nullable = false)
     private Long id;
 
-
     @Column(nullable = false)
     private String name;
 

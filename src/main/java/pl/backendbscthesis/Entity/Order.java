@@ -3,6 +3,8 @@ package pl.backendbscthesis.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Proxy;
+import org.springframework.context.annotation.Lazy;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -12,7 +14,8 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-//@Table(name="order")
+@Table(name="orders")
+@Proxy(lazy = false)
 public class Order {
 
     @Id
@@ -24,15 +27,15 @@ public class Order {
     @JoinColumn(name = "client_id")
     private Client client;
 
-    @ManyToMany
+    @ManyToMany()
     @JoinColumn(name = "employee_individual_id")
     private List<Employee> employeeList;
 
-    @OneToMany
+    @OneToMany()
     @JoinColumn(name = "activities_id")
     private List<Activities> activitiesList;
 
-    @OneToMany
+    @OneToMany()
     @JoinColumn(name = "part_id")
     private List<Part> partList;
 

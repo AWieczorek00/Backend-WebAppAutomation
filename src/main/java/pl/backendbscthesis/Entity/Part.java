@@ -10,6 +10,7 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name="part")
 public class Part {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

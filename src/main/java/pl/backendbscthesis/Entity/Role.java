@@ -7,10 +7,12 @@ import pl.backendbscthesis.Enum.ERole;
 
 import javax.persistence.*;
 
+
+
 @Entity
 @Data
-@Table(name="roles")
 @NoArgsConstructor
+@Table(name="role")
 public class Role {
     public Role(ERole name) {
         this.name = name;
