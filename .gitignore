@@ -35,3 +35,14 @@ build/
 
 ### application.properties ###
 /src/main/resources/application.properties
+
+# Local configuration file (sdk path, etc)
+local.properties
+.properties
+
+
+#Log Files
+*.log
+
+application.properties
+*.properties
