@@ -1,11 +1,10 @@
 package pl.backendbscthesis.Entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import pl.backendbscthesis.Enum.ERole;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 
 

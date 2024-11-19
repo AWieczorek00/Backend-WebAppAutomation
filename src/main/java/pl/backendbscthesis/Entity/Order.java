@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Proxy;
 import org.springframework.context.annotation.Lazy;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -27,8 +27,12 @@ public class Order {
     @JoinColumn(name = "client_id")
     private Client client;
 
-    @ManyToMany()
-    @JoinColumn(name = "employee_individual_id")
+    @ManyToMany
+    @JoinTable(
+            name = "order_employee",
+            joinColumns = @JoinColumn(name = "order_id"),
+            inverseJoinColumns = @JoinColumn(name = "employee_id")
+    )
     private List<Employee> employeeList;
 
     @OneToMany()

@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.4</version>
+        <version>3.3.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>pl</groupId>
@@ -14,13 +14,12 @@
     <name>Backend-BSc-Thesis</name>
     <description>Backend-BSc-Thesis</description>
     <properties>
-        <java.version>17</java.version>
+        <java.version>21</java.version>
     </properties>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
-            <version>2.1.8.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -35,19 +34,20 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>com.h2database</groupId>-->
-<!--            <artifactId>h2</artifactId>-->
-<!--            <scope>runtime</scope>-->
-<!--        </dependency>-->
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
-            <version>2.0.1.Final</version>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+            <version>3.0.2</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -71,6 +71,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <version>1.18.34</version>
             <optional>true</optional>
         </dependency>
         <dependency>
