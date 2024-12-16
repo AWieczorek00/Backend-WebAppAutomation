@@ -8,8 +8,12 @@ import lombok.Getter;
 
 @Data
 public class LoginDto {
-    @NotBlank
-    private String username;
-    @NotBlank
+//    @NotBlank
+//    private String username;
+//    @NotBlank
+//    private String password;
+
+    private String email;
+
     private String password;
 }
