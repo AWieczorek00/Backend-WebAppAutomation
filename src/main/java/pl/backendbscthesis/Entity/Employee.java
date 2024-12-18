@@ -11,28 +11,28 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "employee")
+@Table(name = "EMPLOYEE")
 public class Employee {
 
     @Id
-    @Column(name = "individual_id", nullable = false)
-//    @GeneratedValue(strategy = GenerationType.)
+    @Column(name = "ID", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long individualId;
 
-    @Column(nullable = false)
+    @Column(name = "FIRST_NAME", nullable = false)
     private String firstName;
 
-    @Column(nullable = true)
+    @Column(name = "SECOND_NAME")
     private String secondName;
 
-    @Column(nullable = false)
+    @Column(name="LAST_NAME", nullable = false)
     private String lastName;
 
     private String email;
 
-    @Column(nullable = false,length = 9)
+    @Column(name="PHONE_NUMBER", nullable = false,length = 9)
     private Long phoneNumber;
 
-    @Column(nullable = false)
+    @Column(name="DATA_OF_CREATION", nullable = false)
     private LocalDate dateOfCreation;
 }

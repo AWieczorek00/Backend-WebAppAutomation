@@ -10,25 +10,20 @@ import jakarta.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "PARTS_TEMPLATE")
 public class PartsTemplate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "ID", nullable = false)
     private Long id;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    @Column(nullable = false)
+    @Column(name = "NAME", nullable = false)
     private String name;
 
-    @Column(nullable = false)
+
+    @Column(name = "PRICE", nullable = false)
     private float price;
 
+    @Column(name = "TAX")
     private float tax;
 }

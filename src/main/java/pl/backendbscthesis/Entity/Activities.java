@@ -8,31 +8,23 @@ import jakarta.persistence.*;
 
 @Entity
 @Data
-@Table(name = "activities")
+@Table(name = "ACTIVITIES")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Activities {
-    public Activities(String name, String attention, boolean done) {
-        this.name = name;
-        this.attention = attention;
-        this.done = done;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "NAME", nullable = false)
     private String name;
 
+    @Column(name = "ATTENTION")
     private String attention;
 
-    @Column(nullable = false)
+    @Column(name = "DONE", nullable = false)
     private boolean done;
-
-
-
 }
 
 

@@ -10,14 +10,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @AllArgsConstructor
+@Table(name = "ACTIVITIES_TEMPLATE")
 public class ActivitiesTemplate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "ID", nullable = false)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name="NAME", nullable = false)
     private String name;
 
     public ActivitiesTemplate(String name) {
