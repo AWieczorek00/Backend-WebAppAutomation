@@ -14,8 +14,8 @@ pipeline{
         }
         stage('Test'){
             steps{
-//                sh 'mvn test'
-                echo 'Testing the app'
+                sh 'mvn test'
+//                echo 'Testing the app'
             }
         }
         stage('Deploy'){
