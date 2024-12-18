@@ -18,45 +18,10 @@ import java.util.*;
 
 @Entity
 @Data
-@Table(name = "users")
+@Table(name = "ADM_USER")
 @NoArgsConstructor
 @AllArgsConstructor
 public class User implements UserDetails {
-
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column(name = "id", nullable = false)
-//    private Long id;
-//
-//    public User(String username, String email, String password,Employee employee) {
-//        this.username = username;
-//        this.email = email;
-//        this.password = password;
-//        this.employee = employee;
-//    }
-//
-//    @NotBlank
-//    @Size(max = 20)
-//    private String username;
-//
-//    @NotBlank
-//    @Size(max = 50)
-//    @Email
-//    private String email;
-//
-//    @NotBlank
-//    @Size(max = 120)
-//    private String password;
-//
-//    @ManyToMany(fetch = FetchType.LAZY)
-//    @JoinTable(name = "user_roles",
-//            joinColumns = @JoinColumn(name = "user_id"),
-//            inverseJoinColumns = @JoinColumn(name = "role_id"))
-//    private Set<Role> roles = new HashSet<>();
-//
-//    @OneToOne
-//    @JoinColumn(name = "employee_individual_id")
-//    private Employee employee;
 
 
     public User(String fullName, String email, String password, Role role) {
@@ -67,26 +32,31 @@ public class User implements UserDetails {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID", nullable = false)
     private Integer id;
 
-    @Column(nullable = false)
+    @Column(name = "FULL_NAME", nullable = false)
     private String fullName;
 
-    @Column(unique = true, length = 100, nullable = false)
+    @Column(name = "EMAIL", unique = true, length = 100, nullable = false)
+    @Email
     private String email;
 
-    @Column(nullable = false)
+    @Column(name = "PASSWORD", nullable = false)
     private String password;
 
     @CreationTimestamp
-    @Column(updatable = false, name = "created_at")
+    @Column(name = "CREATE_AT", updatable = false)
     private Date createdAt;
 
     @UpdateTimestamp
-    @Column(name = "updated_at")
+    @Column(name = "UPDATE_AT")
     private Date updatedAt;
+
+    @ManyToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
+    private Role role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -95,9 +65,6 @@ public class User implements UserDetails {
         return List.of(authority);
     }
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
-    private Role role;
 
     public Role getRole() {
         return role;
@@ -145,6 +112,5 @@ public class User implements UserDetails {
     public void setEmail(String email) {
         this.email = email;
     }
-
 
 }

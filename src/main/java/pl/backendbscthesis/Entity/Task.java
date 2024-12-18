@@ -11,23 +11,23 @@ import java.time.LocalDate;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="task")
+@Table(name="TASK")
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "ID", nullable = false)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name="NAME", nullable = false)
     private String name;
 
-
+    @Column(name="EXECUTION_TIME")
     private LocalDate executionTime;
 
+    @Column(name="DONE")
     private Boolean done;
 
     @OneToOne
-    @JoinColumn(name = "employee_individual_id")
+    @JoinColumn(name = "EMPLOYEE_ID")
     private Employee employee;
-
 }

@@ -16,38 +16,27 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="role")
+@Table(name = "ROLE")
 public class Role {
-//    public Role(ERole name) {
-//        this.name = name;
-//    }
 
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column(name = "id", nullable = false)
-//    private Long id;
-//
-//    @Enumerated(EnumType.STRING)
-//    @Column(length = 20)
-//    private ERole name;
-@Id
-@GeneratedValue(strategy = GenerationType.AUTO)
-@Column(nullable = false)
-private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID", nullable = false)
+    private Integer id;
 
-    @Column(unique = true, nullable = false)
+    @Column(name = "NAME", unique = true, nullable = false)
     @Enumerated(EnumType.STRING)
     private ERole name;
 
-    @Column(nullable = false)
+    @Column(name = "DESCRIPTION" ,nullable = false)
     private String description;
 
     @CreationTimestamp
-    @Column(updatable = false, name = "created_at")
+    @Column(updatable = false, name = "CREATED_AT")
     private Date createdAt;
 
     @UpdateTimestamp
-    @Column(name = "updated_at")
+    @Column(name = "UPDATED_AT")
     private Date updatedAt;
 
     public Role(ERole name, String description) {
