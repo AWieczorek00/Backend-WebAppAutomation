@@ -14,7 +14,7 @@ pipeline{
         }
         stage('Test'){
             steps{
-                sh "mvn verify -Dmaven.test.failure.ignore=true"
+                sh "mvn verify -Dspring.profiles.active=test -Dmaven.test.failure.ignore=true"
                 junit 'target/surefire-reports/*.xml'}
         }
         stage('Deploy'){
