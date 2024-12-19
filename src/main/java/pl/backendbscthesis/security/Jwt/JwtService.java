@@ -83,6 +83,9 @@ public class JwtService {
     }
 
     private Key getSignInKey() {
+        if (secretKey == null || secretKey.isEmpty()) {
+            throw new IllegalStateException("JWT Secret Key is not set or is empty!");
+        }
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
     }

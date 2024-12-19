@@ -15,7 +15,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "ORDER")
+@Table(name = "\"ORDER\"") // Używamy cudzysłowów dla zarezerwowanego słowa
 @Proxy(lazy = false)
 public class Order {
 
